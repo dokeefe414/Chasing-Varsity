@@ -1,12 +1,16 @@
 # Chasing Varsity
 
+## [▶ Play Chasing Varsity in your browser](https://chasing-varsity.nativebolt2.chatgpt.site)
+
+**Click the link above to play instantly — no download or installation needed.** Works with keyboard, mouse, or touch. Your progress saves in the browser you play on.
+
 A cross-country training and racing browser game created by **Daniel O’Keefe**. Train a rookie, learn to manage race effort, and work toward national competition. Original canvas artwork and vanilla JavaScript; no game engine, install, or paid assets required.
 
-## Play locally
+## Optional: play locally
 
 Download this repository using **Code → Download ZIP**, extract it, and open **index.html** in Chrome, Edge, Firefox, or Safari. Keep `style.css`, `engine.js`, and `game.js` beside it. For consistent browser save behavior, use VS Code Live Server or run `npm run dev` with Node.js installed and open `http://localhost:3000`.
 
-## Put it on GitHub Pages
+## Optional: host your own copy on GitHub Pages
 
 In the repository open **Settings → Pages → Build and deployment**. Select **Deploy from a branch**, choose **main** and **/ (root)**, and save. GitHub will show the website link after deployment. No build step is needed. Pages must be enabled by the repository owner; committing these files alone does not enable hosting.
 
