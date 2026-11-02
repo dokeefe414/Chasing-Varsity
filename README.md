@@ -14,6 +14,10 @@ Download this repository using **Code → Download ZIP**, extract it, and open *
 
 In the repository open **Settings → Pages → Build and deployment**. Select **Deploy from a branch**, choose **main** and **/ (root)**, and save. GitHub will show the website link after deployment. No build step is needed. Pages must be enabled by the repository owner; committing these files alone does not enable hosting.
 
+## Cartoon game world
+
+Explore a full-screen animated camp with clickable training signs, a sprint track, lake, hills, and race gate. Original cartoon runners, bright scenery, chunky game menus, an energy meter, optional synthesized sound effects, and celebratory results bring the game to life. Existing browser saves are preserved.
+
 ## The game loop
 
 1. Play 20-second training challenges to improve speed, endurance, and strength (maximum 100).
@@ -44,7 +48,9 @@ Stats, coins, unlocked meets, best places, name, and outfits save automatically 
 ## Development
 
 - `index.html`: game screens and accessible controls.
-- `style.css`: responsive forest-green / autumn visual theme.
+- `style.css`: base layout styles.
+- `cartoon.css`: vibrant full-screen game interface and responsive menus.
+- `cartoon.js`: original animated cartoon scenery, runners, optional audio, and visual feedback.
 - `engine.js`: independent progression, save validation, and race math.
 - `game.js`: UI, canvas artwork, animation, training, race flow, and persistence.
 - `dev.js`: optional dependency-free local HTTP server.
@@ -54,4 +60,4 @@ Run `npm test` with Node.js 18+ to test save validation, stat caps, rewards, unl
 
 ## Prototype scope
 
-This first version is single-player with five computer opponents, six individual meets, three training games, and four outfit colors. Course layouts share a procedural forest setting; terrain difficulty changes by meet. Team scoring, recruiting, audio, cloud saves, and multiple seasons are future additions. Balance and mobile touch feel will benefit from player feedback.
+This first version is single-player with five computer opponents, six individual meets, three training games, and four outfit colors. Course layouts share a procedural forest setting; terrain difficulty changes by meet. Team scoring, recruiting, cloud saves, and multiple seasons are future additions. Balance and mobile touch feel will benefit from player feedback.
