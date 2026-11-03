@@ -21,7 +21,7 @@ render=function(){
 };
 const oldStartTraining=startTraining;
 startTraining=function(i){if(activity)return;oldStartTraining(i);Object.assign(activity,{countdown:3,combo:0,maxCombo:0,possible:0,feedback:'GET READY',feedbackUntil:2,beat:0,beatT:0,hit:false,cleanTime:0,streak:0,zone:.5,particles:[],obstacles:[],nextRoot:1.3});$('activity-help').textContent=[ 'Tap or press Space in the moving gold zone. Center hits earn PERFECT and build a combo. The beat gets faster.', 'Hold Space or the button to raise effort. Release to lower it. Follow the moving gold zone for rhythm combos.', 'Tap or press Space to jump over roots and rocks. Obstacles get faster. Clean jumps build your combo.' ][i];};
-startRace=function(index){if(activity||index>state.unlocked)return;const m=E.meets[index];activity={type:'race',index,mode:meetMode,t:0,countdown:3,pace:1,paused:false,done:false,runners:S.makeField(state,index,meetMode),kick:0,kickUsed:false,feedback:'GET READY',feedbackUntil:0,lastPlace:null,particles:[]};openActivity((meetMode==='team'?'TEAM MEET':'INDIVIDUAL RACE')+' · '+(m.distance/1000).toFixed(1)+' KM',m.name);$('race-controls').hidden=false;$('training-controls').hidden=true;$('activity-help').textContent='1 / 2 / 3 change effort. K activates one finishing kick in the last 20% with at least 20% energy. P pauses. Arcade race time.';if(!$('kick-button')){const b=document.createElement('button');b.id='kick-button';b.textContent='K · Finishing kick';b.onclick=kick;$('race-controls').append(b);}setPace(1);$('kick-button').disabled=true;};
+startRace=function(index){if(activity||index>state.unlocked)return;const m=E.meets[index];activity={type:'race',index,mode:meetMode,t:0,countdown:3,pace:1,paused:false,done:false,runners:S.makeField(state,index,meetMode),kick:0,kickUsed:false,feedback:'GET READY',feedbackUntil:0,lastPlace:null,particles:[]};openActivity((meetMode==='team'?'TEAM MEET':'INDIVIDUAL RACE')+' · '+(m.distance/1000).toFixed(1)+' KM',m.name);$('race-controls').hidden=false;$('training-controls').hidden=true;$('activity-help').textContent='Your runner stays in the front row. 1 / 2 / 3 change effort · K kicks in the final 20% (20% energy needed) · P pauses. Pack map tracks everyone.';if(!$('kick-button')){const b=document.createElement('button');b.id='kick-button';b.textContent='K · Finishing kick';b.onclick=kick;$('race-controls').append(b);}setPace(1);$('kick-button').disabled=true;};
 function feedback(a,text,positive=true){a.feedback=text;a.feedbackUntil=a.t+1; a.feedbackGood=positive;if(positive)chirp(text==='PERFECT!'?820:630);}
 function cleanHit(a,perfect=false){a.combo++;a.maxCombo=Math.max(a.maxCombo,a.combo);feedback(a,perfect?'PERFECT!':a.combo>=3?a.combo+'× COMBO!':'NICE!',true);}
 function miss(a){a.combo=0;feedback(a,'KEEP GOING!',false);}
@@ -70,16 +70,27 @@ function courseScene(c,a,progress){const theme=S.courses[a.index].theme,scroll=a
   if(kind==='hill'||kind==='down'){c.fillStyle='#865c3e';c.fillRect(950,220,8,100);panel(c,910,211,100,42,'#ffe7a1');textCanvas(c,kind==='hill'?'CLIMB ↗':'DOWN ↘',960,238,15,'#6a502c','center');}
   return slope;
 }
-draw=function(){const a=activity;if(!a)return;const c=$('game').getContext('2d');c.clearRect(0,0,1100,440);
+draw=function(){const a=activity;if(!a)return;const canvas=$('game');const height=a.type==='race'?600:440;if(canvas.height!==height)canvas.height=height;const c=canvas.getContext('2d');c.clearRect(0,0,1100,height);
   if(a.type==='race'){
-    const p=a.runners[0],m=E.meets[a.index],progress=p.distance/m.distance,slope=courseScene(c,a,progress);const ordered=[...a.runners].sort((r,s)=>s.distance-r.distance||(r.finish??Infinity)-(s.finish??Infinity));
-    const visible=a.mode==='team'?[...a.runners].sort((r,s)=>Math.abs(r.distance-p.distance)-Math.abs(s.distance-p.distance)).slice(0,10):a.runners;
-    visible.filter(r=>!r.player).forEach((r,i)=>{const x=E.clamp(260+(r.distance-p.distance)*2.8,25,1060),y=326+(i%4)*25+(x-240)*slope;runner(c,x,y,r.color,a.t*11+r.id,.75);textCanvas(c,r.team===0&&a.mode==='team'?'TEAM':r.name,x,y-88,10,'#294e65','center');});runner(c,240,386,state.color,a.t*11,1);textCanvas(c,'YOU',240,270,14,'#234c69','center');
+    const p=a.runners[0],m=E.meets[a.index],progress=p.distance/m.distance;
+    c.save();c.scale(1,600/440);const slope=courseScene(c,a,progress);c.restore();
+    // Four deep display rows, with the captain alone in the foreground.
+    const kindNow=S.segment(a.index,progress);
+    c.fillStyle=kindNow==='mud'?'#997047':kindNow==='track'?'#d47c57':'#dca363';
+    c.fillRect(0,252,1100,348);c.strokeStyle=kindNow==='track'?'#fff2d4':'#efc891';c.lineWidth=3;
+    for(let row=0;row<4;row++){c.beginPath();c.moveTo(0,310+row*80+E.clamp(-300*slope,-22,22));c.lineTo(1100,310+row*80+E.clamp(800*slope,-22,22));c.stroke();}
+    if(kindNow==='mud')for(let i=0;i<14;i++)oval(c,((i*151-p.distance*2)%1150+1150)%1150,280+(i%4)*80,28,7,'#73533a');
+    const ordered=S.raceOrder(a.runners),layout=S.cameraLayout(a.runners,p,slope);
+    for(const item of layout.visible){const {runner:r,x,y,scale}=item;runner(c,x,y,r.color,a.t*11+r.id,scale);const rank=ordered.indexOf(r)+1;panel(c,x-52,y-91,104,20,r.team===0&&a.mode==='team'?'#e5f7c8':'#fff4dd');textCanvas(c,rank+'. '+r.name.slice(0,12),x,y-77,11,'#294e65','center');}
+    oval(c,300,586,38,9,'#ffe475','#96742d');runner(c,300,580,state.color,a.t*11,.78);
+    panel(c,256,467,88,25,'#fff2a3');textCanvas(c,'★ YOU',300,485,15,'#674f22','center');
+    textCanvas(c,'NEARBY RUNNERS',30,205,12,'#335b69');textCanvas(c,(layout.crowded+layout.offscreen)+' others tracked in pack map',30,223,12,'#335b69');
+    updateRaceBoard(a,ordered);
     panel(c,25,16,1050,48);S.courses[a.index].segments.forEach((k,i)=>{c.fillStyle=phaseColor[k];c.fillRect(38+i*128.5,29,128,20);});oval(c,38+1028*progress,39,9,9,'#fff9c7','#234c69');textCanvas(c,'START',35,82,12);textCanvas(c,'FINISH',1060,82,12,'#294e65','right');
     panel(c,28,99,180,28);c.fillStyle=p.energy<20?'#ed7756':'#8acb59';c.beginPath();c.roundRect(33,104,Math.max(1,170*p.energy/100),18,8);c.fill();textCanvas(c,'ENERGY '+Math.round(p.energy)+'%',35,149,13);
     const kind=S.segment(a.index,progress);panel(c,875,99,196,34);textCanvas(c,terrainNames[kind],973,121,16,'#345c70','center');
-    if(progress>.78){const x=240+(m.distance-p.distance)*2.8;if(x<1100){c.fillStyle='#fff3d2';c.fillRect(x,224,7,200);c.fillRect(x+120,224,7,200);for(let i=0;i<8;i++)for(let j=0;j<2;j++){c.fillStyle=(i+j)%2?'#fff3d2':'#29495c';c.fillRect(x+i*16,224+j*15,16,15);}}textCanvas(c,a.kick>0?'FINAL KICK!':'FINAL STRETCH!',550,108,25,'#9b4f25','center');}
-    if(a.kick>0){c.strokeStyle='#fff2ac';c.lineWidth=4;for(let i=0;i<5;i++){c.beginPath();c.moveTo(170-i*8,320+i*13);c.lineTo(203-i*3,320+i*13);c.stroke();}}
+    if(progress>.78){const x=300+(m.distance-p.distance)*3.4;if(x<1100){c.fillStyle='#fff3d2';c.fillRect(x,260,7,325);c.fillRect(x+120,260,7,325);for(let i=0;i<8;i++)for(let j=0;j<2;j++){c.fillStyle=(i+j)%2?'#fff3d2':'#29495c';c.fillRect(x+i*16,260+j*15,16,15);}}textCanvas(c,a.kick>0?'FINAL KICK!':'FINAL STRETCH!',550,108,25,'#9b4f25','center');}
+    if(a.kick>0){c.strokeStyle='#fff2ac';c.lineWidth=4;for(let i=0;i<5;i++){c.beginPath();c.moveTo(220-i*8,490+i*13);c.lineTo(260-i*3,490+i*13);c.stroke();}}
     const place=1+a.runners.filter(r=>!r.player&&(r.distance>p.distance||(r.finish!==null&&(p.finish===null||r.finish<p.finish)))).length;
     $('hud-left').textContent=`${ordinal(place)} / ${a.runners.length} · ${Math.floor(p.distance)} / ${m.distance} m`;$('hud-right').textContent=p.finish!==null?'You finished! Watching the field…':`${escapeTime(a.t)} · ${['Easy','Steady','Push'][a.pace]}`;
   }else{
@@ -89,8 +100,8 @@ draw=function(){const a=activity;if(!a)return;const c=$('game').getContext('2d')
     else for(const o of a.obstacles){if(o.tall){oval(c,o.x+12,351,20,22,'#88969c','#596a75');oval(c,o.x+8,340,7,5,'#b9c7c7');}else{c.fillStyle='#795032';c.fillRect(o.x,350,32,20);c.strokeStyle='#b2804e';c.lineWidth=4;c.beginPath();c.moveTo(o.x-5,366);c.lineTo(o.x+18,345);c.lineTo(o.x+34,366);c.stroke();}}
     panel(c,30,24,215,55);textCanvas(c,'BEST '+state.season.bestTraining[training[a.index].key]+'%',48,49,14);textCanvas(c,'COMBO '+a.combo+'×',48,68,15);$('hud-left').textContent=Math.max(0,Math.ceil(20-a.t))+' seconds remaining';$('hud-right').textContent=a.index===1?'In rhythm: '+a.cleanTime.toFixed(1)+'s':'Clean hits: '+a.score.toFixed(a.index===0?1:0);
   }
-  if(a.feedbackUntil>a.t&&a.countdown<=0){textCanvas(c,a.feedback,550,245,30,a.feedbackGood?'#fff4a7':'#fff7ed','center');c.strokeStyle='#5d783c';}
-  if(a.countdown>0||a.paused){c.fillStyle='#153c6480';c.fillRect(0,0,1100,440);textCanvas(c,a.paused?'TAKE A BREATH':String(Math.ceil(a.countdown)),550,230,a.paused?38:92,'#fff3bd','center');textCanvas(c,a.paused?'Press P or Resume to continue':'ON YOUR MARKS…',550,280,19,'#fff','center');}
+  if(a.feedbackUntil>a.t&&a.countdown<=0){panel(c,330,157,440,43,'#2c5973');textCanvas(c,a.feedback,550,186,24,a.feedbackGood?'#fff4a7':'#fff7ed','center');c.strokeStyle='#5d783c';}
+  if(a.countdown>0||a.paused){c.fillStyle='#153c6480';c.fillRect(0,0,1100,height);textCanvas(c,a.paused?'TAKE A BREATH':String(Math.ceil(a.countdown)),550,230,a.paused?38:92,'#fff3bd','center');textCanvas(c,a.paused?'Press P or Resume to continue':'ON YOUR MARKS…',550,280,19,'#fff','center');}
 };
 // A new activity clears the previous results layout without disturbing the saved season.
 const oldOpen=openActivity;openActivity=function(label,title){oldOpen(label,title);$('result').classList.remove('race-result');};
@@ -100,3 +111,25 @@ document.addEventListener('keydown',e=>{if(e.key.toLowerCase()==='k'&&!e.repeat&
 save();render();
 
 $('notice').addEventListener('click',()=>notice(''));
+
+// A compact, throttled pack overview replaces overlapping on-track labels.
+function updateRaceBoard(a,ordered){
+  let board=$('race-board');
+  if(!board){board=document.createElement('div');board.id='race-board';$('play').insertBefore(board,$('activity-help'));}
+  board.hidden=false;
+  if(a.boardTime!=null&&Math.abs(a.t-a.boardTime)<.3&&a.boardDone===a.done)return;
+  a.boardTime=a.t;a.boardDone=a.done;
+  const p=a.runners[0],distance=E.meets[a.index].distance,place=ordered.indexOf(p),ahead=ordered[place-1];
+  const start=Math.max(0,Math.min(place-2,ordered.length-5));
+  const near=ordered.slice(start,start+5);
+  let teamText='';if(a.mode==='team'){const scores=S.scoreTeams(ordered),rank=scores.findIndex(t=>t.team===0)+1,ours=scores.find(t=>t.team===0);teamText=`<span>Team: ${ordinal(rank)} · ${ours.score} pts <small>(live estimate)</small></span>`;}
+  if(a.countdown>0)teamText='<span>Scores begin after the start</span>';
+  const dots=a.runners.filter(r=>!r.player).map(r=>`<i class="pack-dot" style="left:${E.clamp(r.distance/distance*100,0,100)}%;top:${a.mode==='team'?6+r.team*7:10+(r.id%3)*7}px;background:${r.color}" title="${safe(r.name)}"></i>`).join('');
+  board.innerHTML=`<div class="pack-summary"><b>${a.countdown>0?a.runners.length+' RUNNERS AT THE LINE':p.finish!==null?'FINISHED':ahead?Math.max(0,Math.round(ahead.distance-p.distance))+' m to '+safe(ahead.name):'YOU LEAD THE FIELD'}</b>${teamText}<span class="energy-tip ${p.energy<20?'energy-low':''}">${p.energy<20?'LOW ENERGY · Ease off to recover':p.distance/distance>=.8&&!a.kickUsed&&p.energy>=20?'KICK READY · Press K or tap Kick':'Pace: '+['Recovering','Steady','Pushing'][a.pace]}</span></div><div class="pack-track" aria-label="Full field progress"><span class="pack-start">START</span>${dots}<i class="pack-you" style="left:${E.clamp(p.distance/distance*100,0,100)}%" title="You">★</i><span class="pack-finish">FINISH</span></div><div class="nearby-list">${near.map((r,i)=>`<span class="${r.player?'nearby-you':''}"><b>${start+i+1}.</b> ${safe(r.player?'YOU':r.name)}${a.mode==='team'&&r.team===0&&!r.player?' <small>TEAM</small>':''}</span>`).join('')}</div>`;
+}
+const openPolishedActivity=openActivity;
+openActivity=function(label,title){openPolishedActivity(label,title);const board=$('race-board');if(board)board.hidden=activity?.type!=='race';$('play').classList.toggle('race-view',activity?.type==='race');};
+const finishPolishedActivity=finish;
+finish=function(title,body){finishPolishedActivity(title,body);const a=activity;if(!a)return;const retry=document.createElement('button');retry.id='play-again';retry.className='outline';retry.textContent=a.type==='race'?'Race again ↻':'Train again ↻';retry.onclick=()=>{const type=a.type,index=a.index,mode=a.mode;activity=null;if(type==='race'){meetMode=mode;startRace(index);}else startTraining(index);};$('result').append(retry);};
+const setPolishedPace=setPace;
+setPace=function(p){setPolishedPace(p);document.querySelectorAll('[data-pace]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.pace===activity?.pace)));};

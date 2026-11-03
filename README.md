@@ -12,6 +12,12 @@
 - **Team building:** start with four teammates plus your runner. Recruit specialists, develop a seven-runner roster, and compete against three other teams in fields of 26–28 runners.
 - **Progression:** finish top three in an individual race or win a team meet to unlock the next course. Coins come from training and racing and pay for recruits, team workouts, and cosmetic singlets.
 
+## Clearer team races
+
+The captain has a dedicated foreground row and a gold YOU marker. Nearby opponents use three stable display rows with spacing checks, and runners outside the camera are no longer pinned to its edges. Overlapping sprites are omitted from the main view, but **every runner still races and scores normally**. The pack map tracks the full field, including runners not drawn nearby.
+
+A compact standings strip shows your position, the distance to the runner ahead, and your current team-score estimate. Team scores are provisional until everyone finishes. Low-energy and kick-ready messages make pacing easier to follow. Results include quick Race again / Train again buttons. Touch controls prevent long-press selection and stay within reach while scrolling on phones.
+
 ## How to play
 
 Choose a sign in camp to train, **Race** to select a course and individual/team mode, or **Team** to manage your roster. The course menu compares your rating with the field as a rough readiness guide. Specialization and pacing still matter.
@@ -55,7 +61,7 @@ Open `http://localhost:3000`. No npm dependencies are required. Google Fonts is 
 npm test
 ```
 
-The 22 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, and rewards occurring once. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
+The 27 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, and rewards occurring once. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
 
 ### Source guide
 
