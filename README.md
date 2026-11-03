@@ -4,6 +4,16 @@
 
 **Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
+## Racecraft — new in 0.5.0
+
+- **Three physical racing lanes:** move to a clear lane to pass; a runner directly ahead can box you in. Lane changes cost 1.2 energy, require 12 metres of clearance, and have a one-second cooldown. The first 120 metres let the starting pack spread out.
+- **Draft and attack:** follow a runner 8–40 metres ahead in your lane to reduce energy drain by 32% while easing or holding pace. A surge spends 8 energy for three seconds of 12% extra speed, with a 12-second cooldown and at least 28 energy required. Nearby named rivals may respond after a short delay. Surges and finishing kicks cannot overlap.
+- **Two route decisions per course:** forks begin at 25% and 62.5% distance and rejoin one eighth of the course later. Choose during the approach; choices lock at the fork. The mud shortcut applies a 14% progress multiplier with the usual strength-dependent mud penalty. The firm trail has neither bonus nor penalty. Strong runners can benefit from the shortcut; weaker runners generally favour firm ground. Firm is the default. Separate fork routes do not draft or block one another.
+- **Team plans:** choose Patient start, Run together, or Attack the field before a team meet, or change it during a race. Plans affect teammates; you still control the captain. Running together regroups around the middle teammate until the final fifth, so a mixed-strength team can sacrifice time. Live team scores show the evolving result.
+- **Useful post-race feedback:** measured drafting time, time boxed in, low-energy time, surges, lane changes, route decisions, and four quarter splits with place and energy. Repeat the same course and mode to compare each split with your previous attempt. Comparisons save in your browser.
+- **Less repetitive training:** sessions now award 3–10 stat points according to quality. Simulations check that runners can qualify on every course below maximum stats; pacing, strength, and passing still matter.
+- **Compact touch controls:** effort, lanes, and surge stay in consistent rows; optional route choices and team instructions expand below them. Buttons stay mounted while their labels update, preserving touch and keyboard focus. The layout was checked in a 390 × 844 browser frame; physical-device touch feel still benefits from playtesting.
+
 ## The varsity journey — new in 0.4.0
 
 - **A playable journey map:** follow six chapters from Pine Hollow to nationals, preview locked destinations, and select one course at a time.
@@ -23,9 +33,9 @@
 
 ## Clearer team races
 
-The captain has a dedicated foreground row and a gold YOU marker. Nearby opponents use three stable display rows with spacing checks, and runners outside the camera are no longer pinned to its edges. Overlapping sprites are omitted from the main view, but **every runner still races and scores normally**. The pack map tracks the full field, including runners not drawn nearby.
+The captain has a gold YOU marker and moves between three physical racing lanes. Nearby opponents use those same lanes with spacing checks, and runners outside the camera are no longer pinned to its edges. Overlapping sprites are omitted from the main view, but **every runner still races and scores normally**. The pack map tracks the full field, including runners not drawn nearby.
 
-A compact standings strip shows your position, the distance to the runner ahead, and your current team-score estimate. Team scores are provisional until everyone finishes. Low-energy and kick-ready messages make pacing easier to follow. Results include quick Race again / Train again buttons. Touch controls prevent long-press selection and stay within reach while scrolling on phones.
+A compact standings strip shows your position, the distance to the runner ahead, and your current team-score estimate. Team scores are provisional until everyone finishes. Low-energy and kick-ready messages make pacing easier to follow. Results include quick Race again / Train again buttons. Touch controls prevent long-press selection and use compact, consistent button rows on phones.
 
 ## How to play
 
@@ -34,6 +44,9 @@ Choose a sign in camp to train, **Race** to select a course and individual/team 
 | Activity | Keyboard | Mouse / touch |
 | --- | --- | --- |
 | Race effort | 1 ease off, 2 hold pace, 3 push | Pace buttons |
+| Change lane | ↑ / ↓ | Lane buttons |
+| Surge | S | Surge button |
+| Fork route | Tab to route button, then Enter | Route buttons during approach |
 | Finishing kick | K | Kick button |
 | Sprint training | Space in the gold zone; center = Perfect | Tap action button |
 | Endurance training | Hold Space to raise effort; release to lower | Hold / release action button |
@@ -44,7 +57,7 @@ The finishing kick lasts five seconds, is available once per race in the final 2
 
 ### Training and team development
 
-A completed session gives 3–8 points in its chosen stat and 12–35 coins according to quality, with stats capped at 100. Teammates receive 65% of that session's nominal stat gain. Personal bests track quality, not the number of attempts. Unfinished activities do not earn rewards.
+A completed session gives 3–10 points in its chosen stat and 12–35 coins according to quality, with stats capped at 100. Teammates receive 65% of that session's nominal stat gain. Personal bests track quality, not the number of attempts. Unfinished activities do not earn rewards.
 
 There are six recruitable specialists. When the roster has seven runners including you, recruiting replaces the lowest-rated teammate after confirmation. Each prospect can be recruited once per season. A team workout costs 60 coins and gives every teammate +5 in all three stats, capped at 100; it does not raise the captain's stats.
 
@@ -54,7 +67,7 @@ Each team's first five finishers score their overall places. Lowest total wins. 
 
 ## Saves
 
-Your runner, coins, outfits, unlocked courses, personal bests, recruits, teammate development, team records, chapter stars, rival records, achievements, and recent race history save automatically in this browser. Existing saves migrate without losing the original runner's progress. Saves do not sync across devices; clearing site data removes them. If storage is unavailable, play continues for the session with a warning. **Runner → Save data** contains a confirmed season reset.
+Your runner, coins, outfits, unlocked courses, personal bests, recruits, teammate development, team records, chapter stars, rival records, achievements, recent race history, team plans, and previous split comparisons save automatically in this browser. Existing saves migrate without losing the original runner's progress. Saves do not sync across devices; clearing site data removes them. If storage is unavailable, play continues for the session with a warning. **Runner → Save data** contains a confirmed season reset.
 
 ## Optional local development
 
@@ -70,7 +83,7 @@ Open `http://localhost:3000`. No npm dependencies are required. Google Fonts is 
 npm test
 ```
 
-The 40 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, and championship recaps. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
+The 56 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
 
 ### Source guide
 
@@ -84,6 +97,8 @@ The 40 tests cover original rules, legacy/new saves, recruiting, stat caps, team
 | `season.js` / `season.css` | Expanded training/race controllers, team UI, and results |
 | `journey-engine.js` | Chapter stars, recurring rivals, achievements, wardrobe rules, and journey save migration |
 | `journey.js` / `journey.css` | Journey map, coach guide, trophy cabinet, wardrobe, and championship recap |
+| `racecraft-engine.js` | Physical lanes, drafting, surges, route decisions, team tactics, and measured race telemetry |
+| `racecraft.js` / `racecraft.css` | Stable tactical controls, team-plan setup, responsive layout, and split analysis |
 | `style.css` | Base responsive styles |
 | `dev.js` | Dependency-free local development server |
 | `tests/` | Rule and complete controller-flow regression tests |

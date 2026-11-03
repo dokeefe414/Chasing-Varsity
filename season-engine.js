@@ -56,19 +56,20 @@
   }
   // Standard XC: five scorers, sixth/seventh displace. Equal scores use sixth finisher.
   function scoreTeams(finishers){const groups=new Map();finishers.forEach((r,i)=>{if(!groups.has(r.team))groups.set(r.team,[]);groups.get(r.team).push(i+1);});return [...groups].map(([team,places])=>({team,places,score:places.length>=5?places.slice(0,5).reduce((a,b)=>a+b,0):Infinity,sixth:places[5]??Infinity})).sort((a,b)=>a.score-b.score||a.sixth-b.sixth||a.places[0]-b.places[0]);}
-  function trainingReward(s,key,quality){const q=clamp(quality,0,1),before=s.stats[key],gain=3+Math.floor(q*5);s.stats[key]=Math.min(100,before+gain);const coins=12+Math.round(q*23);s.coins+=coins;s.sessions++;const data=ensure(s),pb=Math.round(q*100)>data.bestTraining[key];data.bestTraining[key]=Math.max(data.bestTraining[key],Math.round(q*100));data.roster.forEach(r=>r.stats[key]=Math.min(100,r.stats[key]+gain*.65));return{gain:s.stats[key]-before,coins,pb};}
+  function trainingReward(s,key,quality){const q=clamp(quality,0,1),before=s.stats[key],gain=3+Math.floor(q*7);s.stats[key]=Math.min(100,before+gain);const coins=12+Math.round(q*23);s.coins+=coins;s.sessions++;const data=ensure(s),pb=Math.round(q*100)>data.bestTraining[key];data.bestTraining[key]=Math.max(data.bestTraining[key],Math.round(q*100));data.roster.forEach(r=>r.stats[key]=Math.min(100,r.stats[key]+gain*.65));return{gain:s.stats[key]-before,coins,pb};}
   // Keep real race positions; omit crowded/off-camera sprites instead of stacking them.
   function cameraLayout(runners, player, slope=0) {
     const rows=[[],[],[]], visible=[];
     const candidates=runners.filter(r=>!r.player).sort((a,b)=>Math.abs(a.distance-player.distance)-Math.abs(b.distance-player.distance)||a.id-b.id);
     let offscreen=0, crowded=0;
     for(const r of candidates){
-      const x=300+(r.distance-player.distance)*3.4;
+      const x=300+(r.distance-player.distance)*(player.lane===undefined?3.4:5);
       if(x<55||x>1045){offscreen++;continue;}
-      const lane=r.id%3;
+      const lane=r.lane??r.id%3;
+      if(player.lane===lane&&Math.abs(x-300)<115){crowded++;continue;}
       if(rows[lane].some(other=>Math.abs(other-x)<125)||visible.length>=9){crowded++;continue;}
       rows[lane].push(x);
-      visible.push({runner:r,x,y:300+lane*80+clamp((x-300)*slope,-22,22),lane,scale:.62});
+      visible.push({runner:r,x,y:300+lane*(player.lane===undefined?80:100)+clamp((x-300)*slope,-22,22),lane,scale:.62});
     }
     return {visible:visible.sort((a,b)=>a.lane-b.lane||a.x-b.x),offscreen,crowded};
   }

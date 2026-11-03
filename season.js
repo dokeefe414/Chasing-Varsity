@@ -21,11 +21,11 @@ render=function(){
 };
 const oldStartTraining=startTraining;
 startTraining=function(i){if(activity)return;oldStartTraining(i);Object.assign(activity,{countdown:3,combo:0,maxCombo:0,possible:0,feedback:'GET READY',feedbackUntil:2,beat:0,beatT:0,hit:false,cleanTime:0,streak:0,zone:.5,particles:[],obstacles:[],nextRoot:1.3});$('activity-help').textContent=[ 'Tap or press Space in the moving gold zone. Center hits earn PERFECT and build a combo. The beat gets faster.', 'Hold Space or the button to raise effort. Release to lower it. Follow the moving gold zone for rhythm combos.', 'Tap or press Space to jump over roots and rocks. Obstacles get faster. Clean jumps build your combo.' ][i];};
-startRace=function(index){if(activity||index>state.unlocked)return;const m=E.meets[index];activity={type:'race',index,mode:meetMode,t:0,countdown:3,pace:1,paused:false,done:false,runners:S.makeField(state,index,meetMode),kick:0,kickUsed:false,feedback:'GET READY',feedbackUntil:0,lastPlace:null,particles:[]};openActivity((meetMode==='team'?'TEAM MEET':'INDIVIDUAL RACE')+' · '+(m.distance/1000).toFixed(1)+' KM',m.name);$('race-controls').hidden=false;$('training-controls').hidden=true;$('activity-help').textContent='Your runner stays in the front row. 1 / 2 / 3 change effort · K kicks in the final 20% (20% energy needed) · P pauses. Pack map tracks everyone.';if(!$('kick-button')){const b=document.createElement('button');b.id='kick-button';b.textContent='K · Finishing kick';b.onclick=kick;$('race-controls').append(b);}setPace(1);$('kick-button').disabled=true;};
+startRace=function(index){if(activity||index>state.unlocked)return;const m=E.meets[index];activity={type:'race',index,mode:meetMode,t:0,countdown:3,pace:1,paused:false,done:false,runners:S.makeField(state,index,meetMode),kick:0,kickUsed:false,feedback:'GET READY',feedbackUntil:0,lastPlace:null,particles:[]};CVRacecraft.init(activity,state);openActivity((meetMode==='team'?'TEAM MEET':'INDIVIDUAL RACE')+' · '+(m.distance/1000).toFixed(1)+' KM',m.name);$('race-controls').hidden=false;$('training-controls').hidden=true;$('activity-help').textContent='1 / 2 / 3 effort · ↑ / ↓ change lane · S surge · K finishing kick · P pause. Draft 8–40 m behind a runner to save energy. Switch lanes to pass.';if(!$('kick-button')){const b=document.createElement('button');b.id='kick-button';b.textContent='K · Finishing kick';b.onclick=kick;$('race-controls').append(b);}setPace(1);$('kick-button').disabled=true;};
 function feedback(a,text,positive=true){a.feedback=text;a.feedbackUntil=a.t+1; a.feedbackGood=positive;if(positive)chirp(text==='PERFECT!'?820:630);}
 function cleanHit(a,perfect=false){a.combo++;a.maxCombo=Math.max(a.maxCombo,a.combo);feedback(a,perfect?'PERFECT!':a.combo>=3?a.combo+'× COMBO!':'NICE!',true);}
 function miss(a){a.combo=0;feedback(a,'KEEP GOING!',false);}
-function kick(){const a=activity;if(!a||a.type!=='race'||a.done||a.paused||a.countdown>0)return;const p=a.runners[0];if(a.kickUsed||p.distance/E.meets[a.index].distance<.8||p.energy<20)return;a.kickUsed=true;a.kick=5;a.kickAt=p.distance/E.meets[a.index].distance;feedback(a,'LET’S GO! FINAL KICK!');}
+function kick(){const a=activity;if(!a||a.type!=='race'||a.done||a.paused||a.countdown>0)return;const p=a.runners[0];if(a.t<p.surgeUntil||a.kickUsed||p.distance/E.meets[a.index].distance<.8||p.energy<20)return;a.kickUsed=true;a.kick=5;a.kickAt=p.distance/E.meets[a.index].distance;feedback(a,'LET’S GO! FINAL KICK!');}
 act=function(){const a=activity;if(!a||a.paused||a.done||a.countdown>0||a.type!=='training')return;a.held=true;if(a.index===0){if(a.hit)return;a.hit=true;const duration=Math.max(.76,1.35-a.t*.024),pos=a.beatT/duration,zone=.5+Math.sin(a.beat*1.7)*.13,width=Math.max(.18,.30-a.t*.004);a.attempts++;if(Math.abs(pos-zone)<width/2){const perfect=Math.abs(pos-zone)<width*.19;a.score+=perfect?1:.75;cleanHit(a,perfect);}else miss(a);}if(a.index===2&&a.jump===0)a.jump=.85;};
 const phaseColor={flat:'#88c862',hill:'#aa9661',down:'#74b8a0',mud:'#986645',track:'#df7753'};
 function finishTraining(a){const quality=a.index===0?a.score/Math.max(1,a.possible):a.index===1?a.cleanTime/20:a.score/Math.max(1,a.attempts);const r=S.trainingReward(state,training[a.index].key,quality);finish(r.pb?'NEW PERSONAL BEST!':'SESSION COMPLETE!',`${Math.round(E.clamp(quality,0,1)*100)}% quality · Best combo ${a.maxCombo}×<br>+${r.gain} ${training[a.index].key} · +${r.coins} coins<br>Your teammates improved too. ${state.stats[training[a.index].key]===100?'This stat is maxed out!':''}`);}
@@ -41,11 +41,11 @@ function finishRace(a){const ordered=[...a.runners].sort((x,y)=>x.finish-y.finis
 update=function(dt){const a=activity;if(!a||a.paused||a.done)return;
   if(a.countdown>0){a.countdown=Math.max(0,a.countdown-dt);if(a.countdown===0){feedback(a,'GO!');a.held=false;}return;}
   if(a.type==='race'){
-    const p=a.runners[0],m=E.meets[a.index];a.minimumEnergy=Math.min(a.minimumEnergy??100,p.energy);const stepDt=dt*(p.finish!==null?6:1);a.t+=stepDt;a.kick=Math.max(0,a.kick-stepDt);
-    for(const r of a.runners){if(r.finish!==null)continue;const progress=r.distance/m.distance,kind=S.segment(a.index,progress),before=r.distance;S.step(r,stepDt,r.player?a.pace:S.aiPace(r,progress),kind,r.player&&a.kick>0);if(r.distance>=m.distance){r.finish=a.t-stepDt+stepDt*(m.distance-before)/(r.distance-before);r.distance=m.distance;}}
+    const p=a.runners[0],m=E.meets[a.index];a.minimumEnergy=Math.min(a.minimumEnergy??100,p.energy);const stepDt=dt*(p.finish!==null?6:1);
+    CVRacecraft.advance(a,stepDt);
     a.minimumEnergy=Math.min(a.minimumEnergy??100,p.energy);const place=1+a.runners.filter(r=>!r.player&&(r.distance>p.distance||(r.finish!==null&&(p.finish===null||r.finish<p.finish)))).length;
     if(a.lastPlace!==null&&place<a.lastPlace&&p.finish===null)feedback(a,'MOVED UP TO '+ordinal(place).toUpperCase()+'!');a.lastPlace=place;
-    const kb=$('kick-button');if(kb){kb.disabled=a.kickUsed||p.distance/m.distance<.8||p.energy<20||p.finish!==null;kb.textContent=a.kick>0?'KICK! '+a.kick.toFixed(1)+'s':a.kickUsed?'Kick used':p.distance/m.distance<.8?'Kick unlocks at 80%':'K · Finishing kick';}
+    const kb=$('kick-button');if(kb){kb.disabled=a.t<p.surgeUntil||a.kickUsed||p.distance/m.distance<.8||p.energy<20||p.finish!==null;kb.textContent=a.kick>0?'KICK! '+a.kick.toFixed(1)+'s':a.kickUsed?'Kick used':p.distance/m.distance<.8?'Kick unlocks at 80%':'K · Finishing kick';}
     if(a.runners.every(r=>r.finish!==null))finishRace(a);
   }else{
     a.t+=dt;
@@ -57,7 +57,7 @@ update=function(dt){const a=activity;if(!a||a.paused||a.done)return;
 };
 function textCanvas(c,text,x,y,size=18,color='#294e65',align='left'){c.font=`600 ${size}px Fredoka, sans-serif`;c.fillStyle=color;c.textAlign=align;c.fillText(text,x,y);c.textAlign='left';}
 function panel(c,x,y,w,h,color='#fff4ce'){c.fillStyle=color;c.strokeStyle='#345e77';c.lineWidth=3;c.beginPath();c.roundRect(x,y,w,h,12);c.fill();c.stroke();}
-function courseScene(c,a,progress){const theme=S.courses[a.index].theme,scroll=a.runners[0].distance*2;landscape(c,1100,440,scroll);const kind=S.segment(a.index,progress);
+function courseScene(c,a,progress){const theme=S.courses[a.index].theme,scroll=a.runners[0].distance*2;landscape(c,1100,440,scroll);const kind=CVRacecraft.route(a,a.runners[0],progress).kind;
   if(theme==='lake'){oval(c,800,240,290,44,'#49b9d4','#328aa7');for(let i=0;i<6;i++){c.fillStyle='#aff2ed';c.fillRect(600+i*76,234+i%2*12,40,3);}}
   if(theme==='forest')for(let i=0;i<11;i++)roundTree(c,((i*125-scroll*.5)%1300+1300)%1300-100,292,.9+i%3*.13);
   if(theme==='mountain'){c.fillStyle='#99a6bc';for(let i=0;i<4;i++){const x=i*340-100;c.beginPath();c.moveTo(x,260);c.lineTo(x+180,65+i%2*40);c.lineTo(x+370,260);c.fill();c.fillStyle='#e4efee';c.beginPath();c.moveTo(x+138,112+i%2*40);c.lineTo(x+180,65+i%2*40);c.lineTo(x+223,112+i%2*40);c.fill();c.fillStyle='#99a6bc';}}
@@ -74,21 +74,21 @@ draw=function(){const a=activity;if(!a)return;const canvas=$('game');const heigh
   if(a.type==='race'){
     const p=a.runners[0],m=E.meets[a.index],progress=p.distance/m.distance;
     c.save();c.scale(1,600/440);const slope=courseScene(c,a,progress);c.restore();
-    // Four deep display rows, with the captain alone in the foreground.
-    const kindNow=S.segment(a.index,progress);
+    // Physical lanes match tactical controls; the captain remains gold-marked.
+    const kindNow=CVRacecraft.route(a,p,progress).kind;
     c.fillStyle=kindNow==='mud'?'#997047':kindNow==='track'?'#d47c57':'#dca363';
     c.fillRect(0,252,1100,348);c.strokeStyle=kindNow==='track'?'#fff2d4':'#efc891';c.lineWidth=3;
-    for(let row=0;row<4;row++){c.beginPath();c.moveTo(0,310+row*80+E.clamp(-300*slope,-22,22));c.lineTo(1100,310+row*80+E.clamp(800*slope,-22,22));c.stroke();}
+    for(let row=0;row<3;row++){c.beginPath();c.moveTo(0,310+row*100+E.clamp(-300*slope,-22,22));c.lineTo(1100,310+row*100+E.clamp(800*slope,-22,22));c.stroke();}
     if(kindNow==='mud')for(let i=0;i<14;i++)oval(c,((i*151-p.distance*2)%1150+1150)%1150,280+(i%4)*80,28,7,'#73533a');
     const ordered=S.raceOrder(a.runners),layout=S.cameraLayout(a.runners,p,slope);
     for(const item of layout.visible){const {runner:r,x,y,scale}=item;runner(c,x,y,r.color,a.t*11+r.id,scale,r.appearance);const rank=ordered.indexOf(r)+1;panel(c,x-52,y-91,104,20,r.team===0&&a.mode==='team'?'#e5f7c8':'#fff4dd');textCanvas(c,rank+'. '+r.name.slice(0,12),x,y-77,11,'#294e65','center');}
-    oval(c,300,586,38,9,'#ffe475','#96742d');runner(c,300,580,state.color,a.t*11,.78);
-    panel(c,256,467,88,25,'#fff2a3');textCanvas(c,'★ YOU',300,485,15,'#674f22','center');
+    const playerY=300+(p.lane??1)*100;oval(c,300,playerY+6,38,9,'#ffe475','#96742d');runner(c,300,playerY,state.color,a.t*11,.78);
+    panel(c,256,playerY-113,88,25,'#fff2a3');textCanvas(c,'★ YOU',300,playerY-95,15,'#674f22','center');textCanvas(c,p.blocked?'BOXED IN · CHANGE LANE':p.drafting?'DRAFTING · ENERGY SAVED':p.surgeUntil>a.t?'SURGING!':'LANE '+(p.lane+1),550,578,18,'#644a27','center');
     textCanvas(c,'NEARBY RUNNERS',30,205,12,'#335b69');textCanvas(c,(layout.crowded+layout.offscreen)+' others tracked in pack map',30,223,12,'#335b69');
     updateRaceBoard(a,ordered);
-    panel(c,25,16,1050,48);S.courses[a.index].segments.forEach((k,i)=>{c.fillStyle=phaseColor[k];c.fillRect(38+i*128.5,29,128,20);});oval(c,38+1028*progress,39,9,9,'#fff9c7','#234c69');textCanvas(c,'START',35,82,12);textCanvas(c,'FINISH',1060,82,12,'#294e65','right');
+    panel(c,25,16,1050,48);S.courses[a.index].segments.forEach((k,i)=>{c.fillStyle=phaseColor[k];c.fillRect(38+i*128.5,29,128,20);});oval(c,38+1028*progress,39,9,9,'#fff9c7','#234c69');textCanvas(c,'START',35,82,12);textCanvas(c,'FINISH',1060,82,12,'#294e65','right');a.forks.forEach(f=>{textCanvas(c,'⑂',38+1028*f.start,58,22,'#674f22','center');});
     panel(c,28,99,180,28);c.fillStyle=p.energy<20?'#ed7756':'#8acb59';c.beginPath();c.roundRect(33,104,Math.max(1,170*p.energy/100),18,8);c.fill();textCanvas(c,'ENERGY '+Math.round(p.energy)+'%',35,149,13);
-    const kind=S.segment(a.index,progress);panel(c,875,99,196,34);textCanvas(c,terrainNames[kind],973,121,16,'#345c70','center');
+    const kind=CVRacecraft.route(a,a.runners[0],progress).kind;panel(c,875,99,196,34);textCanvas(c,terrainNames[kind],973,121,16,'#345c70','center');
     if(progress>.78){const x=300+(m.distance-p.distance)*3.4;if(x<1100){c.fillStyle='#fff3d2';c.fillRect(x,260,7,325);c.fillRect(x+120,260,7,325);for(let i=0;i<8;i++)for(let j=0;j<2;j++){c.fillStyle=(i+j)%2?'#fff3d2':'#29495c';c.fillRect(x+i*16,260+j*15,16,15);}}textCanvas(c,a.kick>0?'FINAL KICK!':'FINAL STRETCH!',550,108,25,'#9b4f25','center');}
     if(a.kick>0){c.strokeStyle='#fff2ac';c.lineWidth=4;for(let i=0;i<5;i++){c.beginPath();c.moveTo(220-i*8,490+i*13);c.lineTo(260-i*3,490+i*13);c.stroke();}}
     const place=1+a.runners.filter(r=>!r.player&&(r.distance>p.distance||(r.finish!==null&&(p.finish===null||r.finish<p.finish)))).length;
