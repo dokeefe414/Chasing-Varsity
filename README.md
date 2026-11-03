@@ -1,63 +1,82 @@
 # Chasing Varsity
 
-## [▶ Play Chasing Varsity in your browser](https://chasing-varsity.nativebolt2.chatgpt.site)
+## [▶ Play Chasing Varsity in your browser](https://chasing-varsity.nativebolt2.chatgpt.site/)
 
-**Click the link above to play instantly — no download or installation needed.** Works with keyboard, mouse, or touch. Your progress saves in the browser you play on.
+**Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
-A cross-country training and racing browser game created by **Daniel O’Keefe**. Train a rookie, learn to manage race effort, and work toward national competition. Original canvas artwork and vanilla JavaScript; no game engine, install, or paid assets required.
+## The expanded season
 
-## Optional: play locally
+- **Three training minigames:** sprint timing with Perfect hits and combos; a moving endurance target; increasingly fast roots and rocks to jump. Sessions last 20 seconds after a countdown, and personal-best quality scores are saved.
+- **Interactive races:** a starting countdown, effort controls, energy management, position-change feedback, a final-stretch cue, and one finishing kick. Full results show every finisher and arcade elapsed time.
+- **Six distinct courses:** meadows, a lakeside course, woodland, mountain ridges, autumn trails, and a championship stadium. Route previews show grass, climbs, descents, mud, and the finishing track. Terrain affects speed; strength helps on climbs and in mud.
+- **Team building:** start with four teammates plus your runner. Recruit specialists, develop a seven-runner roster, and compete against three other teams in fields of 26–28 runners.
+- **Progression:** finish top three in an individual race or win a team meet to unlock the next course. Coins come from training and racing and pay for recruits, team workouts, and cosmetic singlets.
 
-Download this repository using **Code → Download ZIP**, extract it, and open **index.html** in Chrome, Edge, Firefox, or Safari. Keep `style.css`, `engine.js`, and `game.js` beside it. For consistent browser save behavior, use VS Code Live Server or run `npm run dev` with Node.js installed and open `http://localhost:3000`.
+## How to play
 
-## Optional: host your own copy on GitHub Pages
+Choose a sign in camp to train, **Race** to select a course and individual/team mode, or **Team** to manage your roster. The course menu compares your rating with the field as a rough readiness guide. Specialization and pacing still matter.
 
-In the repository open **Settings → Pages → Build and deployment**. Select **Deploy from a branch**, choose **main** and **/ (root)**, and save. GitHub will show the website link after deployment. No build step is needed. Pages must be enabled by the repository owner; committing these files alone does not enable hosting.
-
-## Cartoon game world
-
-Explore a full-screen animated camp with clickable training signs, a sprint track, lake, hills, and race gate. Original cartoon runners, bright scenery, chunky game menus, an energy meter, optional synthesized sound effects, and celebratory results bring the game to life. Existing browser saves are preserved.
-
-## The game loop
-
-1. Play 20-second training challenges to improve speed, endurance, and strength (maximum 100).
-2. Enter the first meet. Finish in the top three to unlock the next one.
-3. Earn coins from training and races. Buy cosmetic singlet colors in My runner.
-4. Work through six meets, from the Pine Hollow Fun Run to Varsity Nationals.
-
-### Controls
-
-| Activity | Keyboard | Touch / mouse |
+| Activity | Keyboard | Mouse / touch |
 | --- | --- | --- |
-| Race | 1 ease off, 2 hold pace, 3 push | Pace buttons |
-| Intervals | Space when marker crosses gold | Tap action button |
-| Long run | Hold Space to increase effort; release to lower | Hold/release action button |
-| Hill repeats | Space to jump roots | Tap jump button |
+| Race effort | 1 ease off, 2 hold pace, 3 push | Pace buttons |
+| Finishing kick | K | Kick button |
+| Sprint training | Space in the gold zone; center = Perfect | Tap action button |
+| Endurance training | Hold Space to raise effort; release to lower | Hold / release action button |
+| Hill training | Space to jump | Tap jump button |
 | Pause | P | Pause / Resume |
 
-The game pauses when the tab loses focus. Unfinished activities earn no rewards. Finishing a training session awards 2–6 stat points and 8–25 coins depending on performance, capped at 100 for each stat. Race time is accelerated for short arcade sessions; it is not a realistic race-time predictor.
+The finishing kick lasts five seconds, is available once per race in the final 20%, and requires at least 20% energy to start. Pushing constantly drains energy; below 18%, fatigue reduces speed. The game pauses when the tab loses focus. After you finish, the remaining field runs at accelerated speed before results appear. These are short arcade races, not realistic race-time predictions.
 
-### Race rules
+### Training and team development
 
-Speed raises base velocity. Endurance reduces energy cost. Strength reduces the hill penalty. Pushing is faster but uses energy quickly; easing off restores it. Energy below 18% slows you down. Rivals also manage energy and attempt a finishing push. Each meet has a stronger field and a different hill intensity. Best place is kept across replays. All rewards are fictional in-game currency.
+A completed session gives 3–8 points in its chosen stat and 12–35 coins according to quality, with stats capped at 100. Teammates receive 65% of that session's nominal stat gain. Personal bests track quality, not the number of attempts. Unfinished activities do not earn rewards.
+
+There are six recruitable specialists. When the roster has seven runners including you, recruiting replaces the lowest-rated teammate after confirmation. Each prospect can be recruited once per season. A team workout costs 60 coins and gives every teammate +5 in all three stats, capped at 100; it does not raise the captain's stats.
+
+### Cross-country scoring
+
+Each team's first five finishers score their overall places. Lowest total wins. Sixth and seventh runners still occupy places and can push opponents' scores higher. Tied totals are decided by the sixth finisher; a team without a sixth runner loses that tie to a team with one. The results list shows team totals, scoring places, and all individual finishers.
 
 ## Saves
 
-Stats, coins, unlocked meets, best places, name, and outfits save automatically in this browser using localStorage. Saves do not sync across devices or browser profiles. Clearing site data removes your season. If browser storage is blocked, a warning appears and play continues for the current session. My runner → Save data includes a confirmed reset.
+Your runner, coins, outfits, unlocked courses, personal bests, recruits, teammate development, and team records save automatically in this browser. Existing saves migrate without losing the original runner's progress. Saves do not sync across devices; clearing site data removes them. If storage is unavailable, play continues for the session with a warning. **Runner → Save data** contains a confirmed season reset.
 
-## Development
+## Optional local development
 
-- `index.html`: game screens and accessible controls.
-- `style.css`: base layout styles.
-- `cartoon.css`: vibrant full-screen game interface and responsive menus.
-- `cartoon.js`: original animated cartoon scenery, runners, optional audio, and visual feedback.
-- `engine.js`: independent progression, save validation, and race math.
-- `game.js`: UI, canvas artwork, animation, training, race flow, and persistence.
-- `dev.js`: optional dependency-free local HTTP server.
-- `tests/engine.test.js`: core rule regression tests.
+Download and extract the repository, keeping all HTML, CSS, and JavaScript files together, then open `index.html`. For consistent save behavior, use VS Code Live Server or install Node.js 18+ and run:
 
-Run `npm test` with Node.js 18+ to test save validation, stat caps, rewards, unlocks, fatigue, and hill effects. There are no npm dependencies. Google Fonts is optional; system fonts are used when offline.
+```sh
+npm run dev
+```
 
-## Prototype scope
+Open `http://localhost:3000`. No npm dependencies are required. Google Fonts is optional; fallback fonts are used offline.
 
-This first version is single-player with five computer opponents, six individual meets, three training games, and four outfit colors. Course layouts share a procedural forest setting; terrain difficulty changes by meet. Team scoring, recruiting, cloud saves, and multiple seasons are future additions. Balance and mobile touch feel will benefit from player feedback.
+```sh
+npm test
+```
+
+The 22 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, and rewards occurring once. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
+
+### Source guide
+
+| File | Responsibility |
+| --- | --- |
+| `index.html` | Game screens and script loading order |
+| `engine.js` | Original progression and save foundation |
+| `game.js` | Base UI, input, persistence, and animation loop |
+| `cartoon.js` / `cartoon.css` | Cartoon world, characters, audio, and game presentation |
+| `season-engine.js` | Pure course, team, recruiting, and expanded physics rules |
+| `season.js` / `season.css` | Expanded training/race controllers, team UI, and results |
+| `style.css` | Base responsive styles |
+| `dev.js` | Dependency-free local development server |
+| `tests/` | Rule and complete controller-flow regression tests |
+
+The season layer extends the original game and reuses its save key. The public game is hosted separately from GitHub; repository commits alone do not update that hosted deployment.
+
+## Optional GitHub Pages hosting
+
+To host your own copy: **Settings → Pages → Deploy from a branch → main → / (root) → Save**. No build is required. The main Play link above already works without enabling GitHub Pages.
+
+## Current scope
+
+Single-player arcade competition against computer-controlled runners. There is no online multiplayer or cloud save system. The season is playable through nationals in individual or team mode. Balance has been checked with simulations; more hands-on playtesting, especially on phones, can refine difficulty and touch feel.
