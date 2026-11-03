@@ -4,6 +4,15 @@
 
 **Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
+## The varsity journey — new in 0.4.0
+
+- **A playable journey map:** follow six chapters from Pine Hollow to nationals, preview locked destinations, and select one course at a time.
+- **18 challenge stars:** each chapter rewards a strong finish, beating its featured rival, and a pacing or performance challenge. Stars accumulate across attempts; each new star pays 30 coins once.
+- **Five recurring rivals:** recognizable outfits, different strengths, and distinct race tactics, with saved head-to-head records and scouting tips. Team races include the featured rival as an opposing captain.
+- **A trophy cabinet and wardrobe:** nine achievements award one-time coin bonuses and unlock shoes, hairstyles, and singlets. Equipment changes appearance, not stats.
+- **A short optional coach guide:** complete a training session, then finish Pine Hollow. Skip it or replay it from Runner; returning saves are not forced through onboarding.
+- **A championship celebration and season recap:** earn your varsity letter with an individual or team nationals win. Review chapter stars, your roster, milestones, and the last 30 race results without resetting progress.
+
 ## The expanded season
 
 - **Three training minigames:** sprint timing with Perfect hits and combos; a moving endurance target; increasingly fast roots and rocks to jump. Sessions last 20 seconds after a countdown, and personal-best quality scores are saved.
@@ -45,7 +54,7 @@ Each team's first five finishers score their overall places. Lowest total wins. 
 
 ## Saves
 
-Your runner, coins, outfits, unlocked courses, personal bests, recruits, teammate development, and team records save automatically in this browser. Existing saves migrate without losing the original runner's progress. Saves do not sync across devices; clearing site data removes them. If storage is unavailable, play continues for the session with a warning. **Runner → Save data** contains a confirmed season reset.
+Your runner, coins, outfits, unlocked courses, personal bests, recruits, teammate development, team records, chapter stars, rival records, achievements, and recent race history save automatically in this browser. Existing saves migrate without losing the original runner's progress. Saves do not sync across devices; clearing site data removes them. If storage is unavailable, play continues for the session with a warning. **Runner → Save data** contains a confirmed season reset.
 
 ## Optional local development
 
@@ -61,7 +70,7 @@ Open `http://localhost:3000`. No npm dependencies are required. Google Fonts is 
 npm test
 ```
 
-The 27 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, and rewards occurring once. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
+The 40 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, and championship recaps. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
 
 ### Source guide
 
@@ -73,6 +82,8 @@ The 27 tests cover original rules, legacy/new saves, recruiting, stat caps, team
 | `cartoon.js` / `cartoon.css` | Cartoon world, characters, audio, and game presentation |
 | `season-engine.js` | Pure course, team, recruiting, and expanded physics rules |
 | `season.js` / `season.css` | Expanded training/race controllers, team UI, and results |
+| `journey-engine.js` | Chapter stars, recurring rivals, achievements, wardrobe rules, and journey save migration |
+| `journey.js` / `journey.css` | Journey map, coach guide, trophy cabinet, wardrobe, and championship recap |
 | `style.css` | Base responsive styles |
 | `dev.js` | Dependency-free local development server |
 | `tests/` | Rule and complete controller-flow regression tests |
