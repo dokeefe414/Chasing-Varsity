@@ -5,9 +5,9 @@ const chapterPositions=[[12,78],[30,48],[47,75],[61,38],[78,62],[88,18]];
 J.ensure(state);
 function outfitAppearance(){const j=J.ensure(state);return{hair:j.outfit.hair,shoes:J.gear.find(g=>g.id===j.outfit.shoes)?.color,kit:j.outfit.kit};}
 const basicRunner=runner;
-runner=function(c,x,y,color,phase,scale=1,appearance){
+runner=function(c,x,y,color,phase,scale=1,appearance,motion){
  const own=!appearance&&color===state.color;const look=appearance||(own?outfitAppearance():{});const kit=look.kit==='varsity-kit'?'#e5b73b':look.kit==='lightning-kit'?'#8355cb':color;
- basicRunner(c,x,y,kit,phase,scale);
+ basicRunner(c,x,y,kit,phase,scale,appearance,motion);
  c.save();c.translate(x,y);c.scale(scale,scale);const swing=Math.sin(phase),bounce=Math.abs(Math.cos(phase))*3;c.translate(0,-bounce);
  if(look.shoes){oval(c,-swing*19+5,-1,11,4,look.shoes,'#384959');oval(c,swing*20+5,1,11,4,look.shoes,'#384959');}
  if(look.hairColor){c.fillStyle=look.hairColor;c.beginPath();c.ellipse(0,-99,19,7,0,0,Math.PI*2);c.fill();}

@@ -4,6 +4,17 @@
 
 **Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
+## Race day — new in 0.7.0
+
+- **Forecasts that affect racing:** quick races offer Sunlit trail, Rain/creek loop, and Wind/ridge loop. Rain adds muddy sections, a strength-dependent speed penalty, and a small energy cost. Wind adds a climb and descent, with headwind from 35–75%; drafting provides shelter. The season calendar fixes each meet’s forecast so replays stay fair. The course strip reflects the selected layout.
+- **Rivals with readable attacks:** each rival has an energy budget and distinct timing. Reed attacks early, Casey hunts hills, Alex builds late, Morgan saves a late surge, and Sam can launch one finishing burst. A 1.5-second warning precedes these attacks; cooldowns and energy costs prevent endless surges. Rivals can recover ahead of climbs.
+- **Running partnerships and specialties:** choose a captain’s partner in Team. Within 45 metres, both runners save 4–10% energy. Finish a team race with at least three seconds together to earn one bond level, capped at ten. Teammates’ strongest stats define specialties: 2% uphill speed for climbers, 2% final-fifth speed for finishers, or 5% energy savings for pacers. Training can change a specialty.
+- **Expressive runners and podiums:** tired runners show fatigue, bursts use a forward lean, and finishers raise their arms. Podiums use the actual cartoon runner artwork and show individual winners or team scores. Reduced-motion preferences suppress running motion and automatic replay playback.
+- **Recorded finish highlights:** watch roughly the last 11–16 seconds around your finish at half speed, pause, or scrub the recorded positions. The camera follows your runner. Quarter-split highlights identify where you gained or lost places. Replays stay in memory for the current race and never grant rewards.
+- **Phone and balance polish:** compact controls retain 48-pixel touch targets, hide redundant instructions during racing, and avoid the sound toggle covering controls. Frame catch-up is bounded and uses a single simulation clock. All six courses and three forecasts were simulated for completion and trained qualification; a fully trained team can win Legends nationals under each forecast.
+
+Ghosts and previous split comparisons are separated by weather, course, mode, and (for ghosts) career circuit. Existing clear-weather records remain available. Exported saves include partnerships and weather ghosts; imports accept up to 8 MB. Older saves retain their progress.
+
 ## Career and replayability — new in 0.6.0
 
 - **A six-meet team season:** race the first five meets in order, earn 10/7/4/2 league points, and finish in the top two to qualify for nationals. Replays keep your best result instead of farming points. See league standings and named rivals’ results after each meet.
@@ -92,7 +103,7 @@ Open `http://localhost:3000`. No npm dependencies are required. Google Fonts is 
 npm test
 ```
 
-The 75 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
+The 91 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Additional race-day tests cover weather effects, attack warnings, chemistry eligibility and caps, weather-isolated save records, replay immutability, hard-circuit balance, and frame timing. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
 
 ### Source guide
 
@@ -110,6 +121,8 @@ The 75 tests cover original rules, legacy/new saves, recruiting, stat caps, team
 | `racecraft.js` / `racecraft.css` | Stable tactical controls, team-plan setup, responsive layout, and split analysis |
 | `career-engine.js` | League qualification, harder circuits, ribbons, ghost recording, and validated save transfer |
 | `career.js` / `career.css` | Season calendar, guided tactical practice, ghost rendering, and import/export UI |
+| `raceday-engine.js` | Forecasts, course variants, rival attack timing, partnerships, specialties, and recorded replay data |
+| `raceday.js` / `raceday.css` | Forecast selection, team chemistry, expressive poses, podiums, replay controls, and phone polish |
 | `style.css` | Base responsive styles |
 | `dev.js` | Dependency-free local development server |
 | `tests/` | Rule and complete controller-flow regression tests |
