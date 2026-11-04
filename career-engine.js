@@ -3,7 +3,7 @@
 'use strict';
 const E=typeof module!=='undefined'?require('./engine.js'):root.CV;
 const S=typeof module!=='undefined'?require('./season-engine.js'):root.CVSeason;
-const tiers=[{name:'Varsity season',boost:0,levels:[12,22,34,47,62,78],color:'#edb34c'},{name:'Elite circuit',boost:5,levels:[60,65,70,75,80,86],color:'#71dce7'},{name:'Legends tour',boost:10,levels:[80,83,86,89,92,95],color:'#cc8ef0'}];
+const tiers=[{name:'Varsity season',boost:0,levels:[12,22,34,47,62,78],color:'#edb34c'},{name:'Elite circuit',boost:5,levels:[82,84,86,88,90,93],color:'#71dce7'},{name:'Legends tour',boost:10,levels:[92,93,94,96,97,98],color:'#cc8ef0'}];
 const points=[10,7,4,2];
 const validOrder=a=>Array.isArray(a)&&a.length===4&&new Set(a).size===4&&a.every(n=>Number.isInteger(n)&&n>=0&&n<4);
 function fresh(){return{tier:0,seasons:[[],[],[]],medals:[],ribbon:null,ghostEnabled:true,ghosts:{},practiceDone:false};}

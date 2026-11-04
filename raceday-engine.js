@@ -27,7 +27,23 @@ function effect(a,r,dt,pace,kind,energy){if(a.practice||!a.condition)return 1;le
 function capture(a){if(a.practice||!a.condition||a.t<a.reelNext)return;const p=a.runners[0];if(p.finish!==null&&a.t>p.finish+1)return;a.reelNext=a.t+.1;a.reel.push({t:a.t,runners:a.runners.map(r=>({id:r.id,d:r.distance,l:r.lane,e:r.energy,finish:r.finish}))});if(a.reel.length>110)a.reel.shift();}
 function record(s,a){if(a.practice||a.dayRecorded||!a.condition||a.runners.some(r=>r.finish===null))return false;a.dayRecorded=true;if(a.mode!=='team'||!a.partnerKey||a.bondSeconds<3)return false;const d=ensure(s);d.bonds[a.partnerKey]=Math.min(10,(d.bonds[a.partnerKey]||0)+1);return true;}
 function frame(a,t){if(!a.reel?.length)return null;let i=a.reel.findIndex(f=>f.t>=t);if(i<0)i=a.reel.length-1;const b=a.reel[i],p=a.reel[Math.max(0,i-1)],ratio=b.t===p.t?0:E.clamp((t-p.t)/(b.t-p.t),0,1);return b.runners.map((r,j)=>({...r,d:p.runners[j].d+(r.d-p.runners[j].d)*ratio,l:p.runners[j].l+(r.l-p.runners[j].l)*ratio}));}
+// One actionable cue at a time; nearby attacks matter more than distant runners.
+function cue(a){const p=a.runners[0],progress=p.distance/E.meets[a.index].distance;
+ if(a.done||p.finish!==null)return {kind:'finish',title:'FINISH RECORDED',help:a.done?'Your results and replay are ready.':'Watching the rest of the field.'};
+ if(a.paused)return {kind:'pause',title:'PAUSED',help:'Resume when you are ready.'};
+ if(a.countdown>0)return {kind:'start',title:'ON YOUR MARKS',help:'Start steady. Let the pack spread before passing.'};
+ if(p.energy<25)return {kind:'energy',title:'LOW ENERGY · '+Math.round(p.energy)+'%',help:'Ease off now. Fatigue begins below 18%.'};
+ const fork=a.forks.find(f=>progress<f.start&&(f.start-progress)*E.meets[a.index].distance<=180);
+ if(fork)return {kind:'fork',title:'FORK IN '+Math.ceil((fork.start-progress)*E.meets[a.index].distance)+' m',help:'Choose mud or firm below before the turn.'};
+ if(p.blocked){const lane=[0,1,2].find(l=>l!==p.lane&&R.clearLane(a,p,l));return {kind:'boxed',title:'BOXED IN',help:lane===undefined?'Hold or ease until a gap opens. Save your surge.':'Lane '+(lane+1)+' has space. Move before you surge.'};}
+ if(progress>=.8&&!a.kickUsed&&a.kick<=0&&p.energy>=20&&p.surgeUntil<=a.t)return {kind:'kick',title:'FINISHING KICK READY',help:'Tap Kick or press K · one use this race.'};
+ const rival=a.runners.filter(r=>r.intent&&r.finish===null&&Math.abs(r.distance-p.distance)<120).sort((x,y)=>Math.abs(x.distance-p.distance)-Math.abs(y.distance-p.distance))[0];
+ if(rival)return {kind:'rival',title:rival.name+' · '+rival.intent,help:'Attack in '+Math.max(0,rival.intentAt-a.t).toFixed(1)+'s. Protect your energy or cover it.'};
+ if(p.drafting)return {kind:'draft',title:'DRAFTING · '+p.draftName,help:'32% less energy drain. Push or surge to leave the pocket.'};
+ if(p.partnerNear)return {kind:'partner',title:'PARTNER NEAR',help:'You are both saving energy within 45 metres.'};
+ return {kind:'pace',title:'ENERGY '+Math.round(p.energy)+'% · '+['EASE','HOLD','PUSH'][a.pace],help:'Read the gaps. Save a burst for a clear lane.'};
+}
 function insight(a){const places=a.telemetry.places,notes=[];for(let i=1;i<places.length;i++){const change=places[i-1]-places[i];if(change)notes.push({change,text:`${change>0?'Gained':'Lost'} ${Math.abs(change)} place${Math.abs(change)===1?'':'s'} in quarter ${i+1}${a.telemetry.energy[i]<18?' while low on energy':''}.`});}notes.sort((x,y)=>Math.abs(y.change)-Math.abs(x.change));return notes.length?notes.slice(0,2).map(n=>n.text):['Your position held steady between the recorded quarter splits.'];}
 R.day={decision,effect,capture};
-const api={course,conditions,roles,data,ensure,specialty,calendarCondition,init,terrain,decision,effect,capture,record,frame,insight};if(typeof module!=='undefined')module.exports=api;else root.CVRaceday=api;
+const api={course,conditions,roles,data,ensure,specialty,calendarCondition,init,terrain,decision,effect,capture,record,frame,cue,insight};if(typeof module!=='undefined')module.exports=api;else root.CVRaceday=api;
 })(typeof window!=='undefined'?window:globalThis);

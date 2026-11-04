@@ -29,7 +29,7 @@
     while(unique.length<4){const r=rookieTeam().find(r=>!unique.some(x=>x.id===r.id));unique.push(r);}
     const bestTraining={};for(const key of ['speed','endurance','strength']) bestTraining[key]=Math.round(number(raw.bestTraining?.[key],0,0,100));
     const teamBest={};for(let i=0;i<6;i++)if(Number.isInteger(raw.teamBest?.[i])&&raw.teamBest[i]>=1&&raw.teamBest[i]<=4)teamBest[i]=raw.teamBest[i];
-    return {roster:unique,bestTraining,teamBest,teamRaces:Math.floor(number(raw.teamRaces,0,0,999999)),teamWins:Math.floor(number(raw.teamWins,0,0,999999)),hired:Array.isArray(raw.hired)?recruits.filter(r=>raw.hired.includes(r.id)||unique.some(x=>x.id===r.id)).map(r=>r.id):unique.filter(r=>!r.id.startsWith('rookie-')).map(r=>r.id)};
+    return {lastTraining:['speed','endurance','strength'].includes(raw.lastTraining)?raw.lastTraining:null,roster:unique,bestTraining,teamBest,teamRaces:Math.floor(number(raw.teamRaces,0,0,999999)),teamWins:Math.floor(number(raw.teamWins,0,0,999999)),hired:Array.isArray(raw.hired)?recruits.filter(r=>raw.hired.includes(r.id)||unique.some(x=>x.id===r.id)).map(r=>r.id):unique.filter(r=>!r.id.startsWith('rookie-')).map(r=>r.id)};
   }
   const originalSanitize=E.sanitize;
   E.sanitize=function(raw){const s=originalSanitize(raw);s.season=seasonData(raw?.season);return s;};
@@ -56,7 +56,8 @@
   }
   // Standard XC: five scorers, sixth/seventh displace. Equal scores use sixth finisher.
   function scoreTeams(finishers){const groups=new Map();finishers.forEach((r,i)=>{if(!groups.has(r.team))groups.set(r.team,[]);groups.get(r.team).push(i+1);});return [...groups].map(([team,places])=>({team,places,score:places.length>=5?places.slice(0,5).reduce((a,b)=>a+b,0):Infinity,sixth:places[5]??Infinity})).sort((a,b)=>a.score-b.score||a.sixth-b.sixth||a.places[0]-b.places[0]);}
-  function trainingReward(s,key,quality){const q=clamp(quality,0,1),before=s.stats[key],gain=3+Math.floor(q*7);s.stats[key]=Math.min(100,before+gain);const coins=12+Math.round(q*23);s.coins+=coins;s.sessions++;const data=ensure(s),pb=Math.round(q*100)>data.bestTraining[key];data.bestTraining[key]=Math.max(data.bestTraining[key],Math.round(q*100));data.roster.forEach(r=>r.stats[key]=Math.min(100,r.stats[key]+gain*.65));return{gain:s.stats[key]-before,coins,pb};}
+  function trainingReward(s,key,quality){const data=ensure(s),q=clamp(quality,0,1),before=s.stats[key],variety=q>=.55&&data.lastTraining!==null&&data.lastTraining!==key&&before<100?2:0,gain=3+Math.floor(q*7)+variety;s.stats[key]=Math.min(100,before+gain);const coins=12+Math.round(q*23)+(variety?5:0);s.coins+=coins;s.sessions++;const pb=Math.round(q*100)>data.bestTraining[key];data.bestTraining[key]=Math.max(data.bestTraining[key],Math.round(q*100));data.roster.forEach(r=>r.stats[key]=Math.min(100,r.stats[key]+gain*.65));data.lastTraining=key;return{gain:s.stats[key]-before,coins,pb,variety};}
+
   // Keep real race positions; omit crowded/off-camera sprites instead of stacking them.
   function cameraLayout(runners, player, slope=0) {
     const rows=[[],[],[]], visible=[];

@@ -4,6 +4,16 @@
 
 **Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
+## Balance and race clarity — new in 0.8.0
+
+- **Training variety:** switching disciplines after a completed session adds +2 stat points and +5 coins at 55% quality or better, while that stat is below 100. A coach card recommends your weakest stat and shows the next field's rating.
+- **Fairer passing:** runners cannot slip through a leader less than eight metres ahead. Changing lanes checks every crossed lane, requires four metres of clearance, and costs 1.2 energy per lane crossed. Opponents avoid unnecessary weaving; lane buttons explain blocked gaps, energy costs, and cooldowns.
+- **One clear race cue:** the banner prioritizes recovery, passing opportunities, approaching forks, and the final kick. Relevant rival attacks and drafting feedback appear when no more urgent action is needed. Optional sound cues accompany recovery, route, and kick prompts.
+- **Phone controls:** larger lane targets and a scrollable control panel keep tactical actions reachable at narrow widths. The race view was checked in a 390 × 844 browser frame, including pause/resume and completed team results.
+- **Harder later circuits:** Elite fields now range from 82–93 and Legends from 92–98. Deterministic campaign checks cover all 18 meets at two training-quality levels. See [balance methodology and results](docs/BALANCE.md).
+
+Existing saves, medals, and records remain available.
+
 ## Race day — new in 0.7.0
 
 - **Forecasts that affect racing:** quick races offer Sunlit trail, Rain/creek loop, and Wind/ridge loop. Rain adds muddy sections, a strength-dependent speed penalty, and a small energy cost. Wind adds a climb and descent, with headwind from 35–75%; drafting provides shelter. The season calendar fixes each meet’s forecast so replays stay fair. The course strip reflects the selected layout.
@@ -26,7 +36,7 @@ Ghosts and previous split comparisons are separated by weather, course, mode, an
 
 ## Racecraft — new in 0.5.0
 
-- **Three physical racing lanes:** move to a clear lane to pass; a runner directly ahead can box you in. Lane changes cost 1.2 energy, require 12 metres of clearance, and have a one-second cooldown. The first 120 metres let the starting pack spread out.
+- **Three physical racing lanes:** move to a clear lane to pass; a runner directly ahead can box you in. Lane changes cost 1.2 energy per crossed lane, require four metres of clearance in every crossed lane, and have a one-second cooldown. The first 120 metres let the starting pack spread out.
 - **Draft and attack:** follow a runner 8–40 metres ahead in your lane to reduce energy drain by 32% while easing or holding pace. A surge spends 8 energy for three seconds of 12% extra speed, with a 12-second cooldown and at least 28 energy required. Nearby named rivals may respond after a short delay. Surges and finishing kicks cannot overlap.
 - **Two route decisions per course:** forks begin at 25% and 62.5% distance and rejoin one eighth of the course later. Choose during the approach; choices lock at the fork. The mud shortcut applies a 14% progress multiplier with the usual strength-dependent mud penalty. The firm trail has neither bonus nor penalty. Strong runners can benefit from the shortcut; weaker runners generally favour firm ground. Firm is the default. Separate fork routes do not draft or block one another.
 - **Team plans:** choose Patient start, Run together, or Attack the field before a team meet, or change it during a race. Plans affect teammates; you still control the captain. Running together regroups around the middle teammate until the final fifth, so a mixed-strength team can sacrifice time. Live team scores show the evolving result.
@@ -77,7 +87,7 @@ The finishing kick lasts five seconds, is available once per race in the final 2
 
 ### Training and team development
 
-A completed session gives 3–10 points in its chosen stat and 12–35 coins according to quality, with stats capped at 100. Teammates receive 65% of that session's nominal stat gain. Personal bests track quality, not the number of attempts. Unfinished activities do not earn rewards.
+A completed session gives 3–10 base points in its chosen stat and 12–35 base coins according to quality. Switching disciplines at 55% quality or better adds two points and five coins while the trained stat is below 100, with stats capped at 100. Teammates receive 65% of that session's nominal stat gain. Personal bests track quality, not the number of attempts. Unfinished activities do not earn rewards.
 
 There are six recruitable specialists. When the roster has seven runners including you, recruiting replaces the lowest-rated teammate after confirmation. Each prospect can be recruited once per season. A team workout costs 60 coins and gives every teammate +5 in all three stats, capped at 100; it does not raise the captain's stats.
 
@@ -87,7 +97,7 @@ Each team's first five finishers score their overall places. Lowest total wins. 
 
 ## Saves
 
-Your runner, coins, outfits, unlocked courses, personal bests, recruits, teammate development, team records, chapter stars, rival records, achievements, recent race history, team plans, and previous split comparisons save automatically in this browser. Existing saves migrate without losing the original runner's progress. Saves do not automatically sync across devices; export a backup and import it to transfer progress. Clearing site data removes the local save. Career results, ribbons, practice completion, and recorded ghosts are included. If storage is unavailable, play continues for the session with a warning. **Runner → Save data** contains a confirmed season reset.
+Your runner, coins, outfits, unlocked courses, personal bests, recruits, teammate development, team records, chapter stars, rival records, achievements, recent race history, team plans, last training discipline, and previous split comparisons save automatically in this browser. Existing saves migrate without losing the original runner's progress. Saves do not automatically sync across devices; export a backup and import it to transfer progress. Clearing site data removes the local save. Career results, ribbons, practice completion, and recorded ghosts are included. If storage is unavailable, play continues for the session with a warning. **Runner → Save data** contains a confirmed season reset.
 
 ## Optional local development
 
@@ -103,7 +113,7 @@ Open `http://localhost:3000`. No npm dependencies are required. Google Fonts is 
 npm test
 ```
 
-The 91 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Additional race-day tests cover weather effects, attack warnings, chemistry eligibility and caps, weather-isolated save records, replay immutability, hard-circuit balance, and frame timing. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
+The 100 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Additional race-day tests cover weather effects, attack warnings, chemistry eligibility and caps, weather-isolated save records, replay immutability, hard-circuit balance, and frame timing. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
 
 ### Source guide
 
