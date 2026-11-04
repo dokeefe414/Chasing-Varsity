@@ -4,6 +4,15 @@
 
 **Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
+## Career and replayability — new in 0.6.0
+
+- **A six-meet team season:** race the first five meets in order, earn 10/7/4/2 league points, and finish in the top two to qualify for nationals. Replays keep your best result instead of farming points. See league standings and named rivals’ results after each meet.
+- **Elite and Legends circuits:** winning nationals unlocks a harder season with stronger opponents. Earn and equip championship ribbons while keeping your runner, team, trophies, and earlier results.
+- **Guided tactical practice:** learn drafting, passing, surging, route choice, and a finishing kick alongside Coach. Retry each lesson without spending coins or changing race records and stats.
+- **Your personal-best ghost:** completed races record a translucent replay runner. Ghosts are separate for each course, mode, and career circuit; toggle them in Runner. Recording starts with this update and ghosts never block or draft.
+- **Clearer racing:** smooth lane changes, a branching route preview, visible drafting wakes, and surge/kick effects that follow your runner. Reduced-motion settings are respected.
+- **Portable saves:** Runner → Export save downloads a backup. On another device, open the same game, choose Import save, review the runner preview, then confirm. Cancel leaves current progress intact. This is manual transfer, not cloud sync.
+
 ## Racecraft — new in 0.5.0
 
 - **Three physical racing lanes:** move to a clear lane to pass; a runner directly ahead can box you in. Lane changes cost 1.2 energy, require 12 metres of clearance, and have a one-second cooldown. The first 120 metres let the starting pack spread out.
@@ -67,7 +76,7 @@ Each team's first five finishers score their overall places. Lowest total wins. 
 
 ## Saves
 
-Your runner, coins, outfits, unlocked courses, personal bests, recruits, teammate development, team records, chapter stars, rival records, achievements, recent race history, team plans, and previous split comparisons save automatically in this browser. Existing saves migrate without losing the original runner's progress. Saves do not sync across devices; clearing site data removes them. If storage is unavailable, play continues for the session with a warning. **Runner → Save data** contains a confirmed season reset.
+Your runner, coins, outfits, unlocked courses, personal bests, recruits, teammate development, team records, chapter stars, rival records, achievements, recent race history, team plans, and previous split comparisons save automatically in this browser. Existing saves migrate without losing the original runner's progress. Saves do not automatically sync across devices; export a backup and import it to transfer progress. Clearing site data removes the local save. Career results, ribbons, practice completion, and recorded ghosts are included. If storage is unavailable, play continues for the session with a warning. **Runner → Save data** contains a confirmed season reset.
 
 ## Optional local development
 
@@ -83,7 +92,7 @@ Open `http://localhost:3000`. No npm dependencies are required. Google Fonts is 
 npm test
 ```
 
-The 56 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
+The 75 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
 
 ### Source guide
 
@@ -99,6 +108,8 @@ The 56 tests cover original rules, legacy/new saves, recruiting, stat caps, team
 | `journey.js` / `journey.css` | Journey map, coach guide, trophy cabinet, wardrobe, and championship recap |
 | `racecraft-engine.js` | Physical lanes, drafting, surges, route decisions, team tactics, and measured race telemetry |
 | `racecraft.js` / `racecraft.css` | Stable tactical controls, team-plan setup, responsive layout, and split analysis |
+| `career-engine.js` | League qualification, harder circuits, ribbons, ghost recording, and validated save transfer |
+| `career.js` / `career.css` | Season calendar, guided tactical practice, ghost rendering, and import/export UI |
 | `style.css` | Base responsive styles |
 | `dev.js` | Dependency-free local development server |
 | `tests/` | Rule and complete controller-flow regression tests |

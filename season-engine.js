@@ -69,7 +69,7 @@
       if(player.lane===lane&&Math.abs(x-300)<115){crowded++;continue;}
       if(rows[lane].some(other=>Math.abs(other-x)<125)||visible.length>=9){crowded++;continue;}
       rows[lane].push(x);
-      visible.push({runner:r,x,y:300+lane*(player.lane===undefined?80:100)+clamp((x-300)*slope,-22,22),lane,scale:.62});
+      visible.push({runner:r,x,y:300+(r.visualLane??lane)*(player.lane===undefined?80:100)+clamp((x-300)*slope,-22,22),lane,scale:.62});
     }
     return {visible:visible.sort((a,b)=>a.lane-b.lane||a.x-b.x),offscreen,crowded};
   }

@@ -34,7 +34,7 @@ function tick(a,dt){const distance=E.meets[a.index].distance,p=a.runners[0],befo
  const leader=snapshot.filter(o=>o.id!==r.id&&o.finish===null&&o.lane===r.lane&&o.distance-start>=8&&o.distance-start<=40&&(terrain.name==='trail'||o.route===terrain.name)).sort((x,y)=>x.distance-y.distance)[0];
  r.drafting=!!leader&&pace!==2&&!(r.surgeUntil>a.t)&&!(r.player&&a.kick>0);r.draftName=r.drafting?leader.name:null;
  const energy=r.energy;S.step(r,dt,pace,terrain.kind,r.player&&a.kick>0);if(r.drafting&&r.energy<energy)r.energy=E.clamp(energy-(energy-r.energy)*.68,0,100);
- const factor=terrain.factor*(r.surgeUntil>a.t?1.12:1);r.distance=start+(r.distance-start)*factor;proposals.set(r.id,{start,end:r.distance});r.distance=start;
+ const factor=terrain.factor*(r.surgeUntil>a.t?1.12:1)*(r.circuitSpeed||1);r.distance=start+(r.distance-start)*factor;proposals.set(r.id,{start,end:r.distance});r.distance=start;
  }
  // Resolve front-to-back so a blocked runner cannot tunnel through a slower runner.
  const moving=a.runners.filter(r=>r.finish===null).sort((x,y)=>y.distance-x.distance||x.id-y.id);
@@ -47,6 +47,6 @@ function tick(a,dt){const distance=E.meets[a.index].distance,p=a.runners[0],befo
  if(p.finish===null||proposals.has(p.id)){const t=a.telemetry;t.draft+=p.drafting?dt:0;t.blocked+=p.blocked?dt:0;t.lowEnergy+=p.energy<18?dt:0;t.earlyPush+=p.distance/distance<.25&&a.pace===2?dt:0;const order=S.raceOrder(a.runners);while(t.splits.length<p.splits.length){t.splits.push(p.splits[t.splits.length]);t.places.push(order.indexOf(p)+1);t.energy.push(Math.round(p.energy));}a.minimumEnergy=Math.min(a.minimumEnergy??100,p.energy);}
 }
 function report(a){const t=a.telemetry,notes=[];if(t.lowEnergy>2)notes.push(`You spent ${t.lowEnergy.toFixed(1)}s below 18% energy, where fatigue reduces speed. Ease off before the next climb.`);if(t.blocked>1)notes.push(`You spent ${t.blocked.toFixed(1)}s boxed in. Move to a clear lane before you surge.`);if(t.draft>1)notes.push(`You drafted for ${t.draft.toFixed(1)}s. That reduced energy drain by 32% while tucked in.`);if(t.earlyPush>4&&t.lowEnergy>2)notes.push('You pushed early and later ran low on energy. Try holding pace through the first quarter.');if(!a.kickUsed)notes.push('You finished without a kick. Save 20% energy and use K in the final 20%.');if(!notes.length)notes.push('You kept your energy under control. Try a well-timed surge or a different route to improve your splits.');return notes;}
-function record(s,a){if(a.telemetry.splits.length===4)ensure(s).lastSplits[a.index+'-'+a.mode]=a.telemetry.splits.slice();}
+function record(s,a){if(a.careerTier!==undefined||a.practice)return;if(a.telemetry.splits.length===4)ensure(s).lastSplits[a.index+'-'+a.mode]=a.telemetry.splits.slice();}
 const api={plans,forks,data,ensure,init,active,clearLane,move,surge,choose,route,teamPace,advance,report,record};if(typeof module!=='undefined')module.exports=api;else root.CVRacecraft=api;
 })(typeof window!=='undefined'?window:globalThis);

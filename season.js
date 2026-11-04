@@ -80,17 +80,16 @@ draw=function(){const a=activity;if(!a)return;const canvas=$('game');const heigh
     c.fillRect(0,252,1100,348);c.strokeStyle=kindNow==='track'?'#fff2d4':'#efc891';c.lineWidth=3;
     for(let row=0;row<3;row++){c.beginPath();c.moveTo(0,310+row*100+E.clamp(-300*slope,-22,22));c.lineTo(1100,310+row*100+E.clamp(800*slope,-22,22));c.stroke();}
     if(kindNow==='mud')for(let i=0;i<14;i++)oval(c,((i*151-p.distance*2)%1150+1150)%1150,280+(i%4)*80,28,7,'#73533a');
-    const ordered=S.raceOrder(a.runners),layout=S.cameraLayout(a.runners,p,slope);
+    drawCareerWorld(c,a,p);const ordered=S.raceOrder(a.runners),layout=S.cameraLayout(a.runners,p,slope);
     for(const item of layout.visible){const {runner:r,x,y,scale}=item;runner(c,x,y,r.color,a.t*11+r.id,scale,r.appearance);const rank=ordered.indexOf(r)+1;panel(c,x-52,y-91,104,20,r.team===0&&a.mode==='team'?'#e5f7c8':'#fff4dd');textCanvas(c,rank+'. '+r.name.slice(0,12),x,y-77,11,'#294e65','center');}
-    const playerY=300+(p.lane??1)*100;oval(c,300,playerY+6,38,9,'#ffe475','#96742d');runner(c,300,playerY,state.color,a.t*11,.78);
+    const playerY=300+(window.matchMedia('(prefers-reduced-motion: reduce)').matches?p.lane:p.visualLane??p.lane??1)*100;drawCareerEffects(c,a,p,playerY);oval(c,300,playerY+6,38,9,'#ffe475','#96742d');runner(c,300,playerY,state.color,a.t*11,.78);
     panel(c,256,playerY-113,88,25,'#fff2a3');textCanvas(c,'★ YOU',300,playerY-95,15,'#674f22','center');textCanvas(c,p.blocked?'BOXED IN · CHANGE LANE':p.drafting?'DRAFTING · ENERGY SAVED':p.surgeUntil>a.t?'SURGING!':'LANE '+(p.lane+1),550,578,18,'#644a27','center');
     textCanvas(c,'NEARBY RUNNERS',30,205,12,'#335b69');textCanvas(c,(layout.crowded+layout.offscreen)+' others tracked in pack map',30,223,12,'#335b69');
     updateRaceBoard(a,ordered);
     panel(c,25,16,1050,48);S.courses[a.index].segments.forEach((k,i)=>{c.fillStyle=phaseColor[k];c.fillRect(38+i*128.5,29,128,20);});oval(c,38+1028*progress,39,9,9,'#fff9c7','#234c69');textCanvas(c,'START',35,82,12);textCanvas(c,'FINISH',1060,82,12,'#294e65','right');a.forks.forEach(f=>{textCanvas(c,'⑂',38+1028*f.start,58,22,'#674f22','center');});
     panel(c,28,99,180,28);c.fillStyle=p.energy<20?'#ed7756':'#8acb59';c.beginPath();c.roundRect(33,104,Math.max(1,170*p.energy/100),18,8);c.fill();textCanvas(c,'ENERGY '+Math.round(p.energy)+'%',35,149,13);
     const kind=CVRacecraft.route(a,a.runners[0],progress).kind;panel(c,875,99,196,34);textCanvas(c,terrainNames[kind],973,121,16,'#345c70','center');
-    if(progress>.78){const x=300+(m.distance-p.distance)*3.4;if(x<1100){c.fillStyle='#fff3d2';c.fillRect(x,260,7,325);c.fillRect(x+120,260,7,325);for(let i=0;i<8;i++)for(let j=0;j<2;j++){c.fillStyle=(i+j)%2?'#fff3d2':'#29495c';c.fillRect(x+i*16,260+j*15,16,15);}}textCanvas(c,a.kick>0?'FINAL KICK!':'FINAL STRETCH!',550,108,25,'#9b4f25','center');}
-    if(a.kick>0){c.strokeStyle='#fff2ac';c.lineWidth=4;for(let i=0;i<5;i++){c.beginPath();c.moveTo(220-i*8,490+i*13);c.lineTo(260-i*3,490+i*13);c.stroke();}}
+    if(progress>.78){const x=300+(m.distance-p.distance)*5;if(x<1100){c.fillStyle='#fff3d2';c.fillRect(x,260,7,325);c.fillRect(x+120,260,7,325);for(let i=0;i<8;i++)for(let j=0;j<2;j++){c.fillStyle=(i+j)%2?'#fff3d2':'#29495c';c.fillRect(x+i*16,260+j*15,16,15);}}textCanvas(c,a.kick>0?'FINAL KICK!':'FINAL STRETCH!',550,108,25,'#9b4f25','center');}
     const place=1+a.runners.filter(r=>!r.player&&(r.distance>p.distance||(r.finish!==null&&(p.finish===null||r.finish<p.finish)))).length;
     $('hud-left').textContent=`${ordinal(place)} / ${a.runners.length} · ${Math.floor(p.distance)} / ${m.distance} m`;$('hud-right').textContent=p.finish!==null?'You finished! Watching the field…':`${escapeTime(a.t)} · ${['Easy','Steady','Push'][a.pace]}`;
   }else{
