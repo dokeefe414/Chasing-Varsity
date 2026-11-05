@@ -4,6 +4,17 @@
 
 **Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
+## Adventure update — new in 0.9.0
+
+- **A larger race view:** bigger runners, a closer camera, and controls beside the action on desktop and landscape phones. Portrait phones keep controls below the course. A nearby blocker stays visible, while other crowded runners remain represented in the field map and scores.
+- **Six distinct scenes:** meadow groves, lakeside water and docks, pine forest, mountain ridges, autumn farmland, and a championship grandstand. Sloped trails, mud, rain, wind, and the finishing track reflect the simulation's current terrain and conditions.
+- **Deeper training:** variable beat timing, moving effort targets, and changing obstacle spacing. Every three combo hits/seconds adds two bonus coins, up to ten. Reach 70% quality in any discipline to unlock optional Challenge training. Challenge uses faster patterns and tighter targets; 65% quality earns eight additional coins. Existing personal bests count toward the unlock. Standard training stays available.
+- **Three race moments:** catch a breakaway over the last 800 m, move from last into the top three on a 1.1 km ridge finish, or defend a narrow team lead in a ten-runner showdown. Each uses a fixed temporary squad, so training and recruitment do not buy the solution. First wins pay 50 coins once; retries are free.
+- **Accomplishment unlocks:** the breakaway unlocks County Park's creek variation; the ridge challenge unlocks its sunset variation; the team challenge unlocks a teal captain's singlet. Select them in Goals. Normal course qualification still applies. Calendar routes remain fixed, and variation ghosts are stored separately.
+- **Verification:** all three scenarios lose under a no-action, hold-pace strategy and can be won by a tested tactical strategy. Both training difficulties are solvable with normal controls. See [v0.9 checks and limits](docs/V09-PLAYTEST.md).
+
+![The expanded race view](docs/chasing-varsity-v09.jpg)
+
 ## Balance and race clarity — new in 0.8.0
 
 - **Training variety:** switching disciplines after a completed session adds +2 stat points and +5 coins at 55% quality or better, while that stat is below 100. A coach card recommends your weakest stat and shows the next field's rating.
@@ -113,7 +124,7 @@ Open `http://localhost:3000`. No npm dependencies are required. Google Fonts is 
 npm test
 ```
 
-The 100 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Additional race-day tests cover weather effects, attack warnings, chemistry eligibility and caps, weather-isolated save records, replay immutability, hard-circuit balance, and frame timing. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
+The 112 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Additional race-day tests cover weather effects, attack warnings, chemistry eligibility and caps, weather-isolated save records, replay immutability, hard-circuit balance, and frame timing. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
 
 ### Source guide
 

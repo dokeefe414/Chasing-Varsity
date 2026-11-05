@@ -13,7 +13,7 @@ function sanitize(raw){const c=fresh();if(!raw||typeof raw!=='object')return c;
  c.medals=[0,1,2].filter(t=>c.seasons[t][5]?.order[0]===0);
  c.tier=Number.isInteger(raw.tier)&&raw.tier>=0&&raw.tier<=2&&(raw.tier===0||c.medals.includes(raw.tier-1))?raw.tier:0;
  c.ribbon=c.medals.includes(raw.ribbon)?raw.ribbon:null;c.ghostEnabled=raw.ghostEnabled!==false;c.practiceDone=raw.practiceDone===true;
- for(const [key,g] of Object.entries(raw.ghosts||{}).slice(0,90)){if(!/^[0-5]-(solo|team)-[0-3](-(rain|wind))?$/.test(key)||!g||!Number.isFinite(g.time)||g.time<=0||g.time>300||!Array.isArray(g.samples)||g.samples.length<2||g.samples.length>602)continue;const distance=E.meets[+key[0]].distance;let time=-1,d=-1;const good=g.samples.every(v=>{if(!Array.isArray(v)||v.length!==3||!v.every(Number.isFinite)||v[0]<=time||v[0]<0||v[0]>g.time+.001||v[1]<d||v[1]<0||v[1]>distance||v[2]<0||v[2]>2)return false;time=v[0];d=v[1];return true;});if(good&&Math.abs(time-g.time)<.01&&d===distance)c.ghosts[key]={time:g.time,samples:g.samples.map(v=>v.slice())};}
+ for(const [key,g] of Object.entries(raw.ghosts||{}).slice(0,90)){if(!/^[0-5]-(solo|team)-[0-3](-(rain|wind))?(-(creek|sunset))?$/.test(key)||!g||!Number.isFinite(g.time)||g.time<=0||g.time>300||!Array.isArray(g.samples)||g.samples.length<2||g.samples.length>602)continue;const distance=E.meets[+key[0]].distance;let time=-1,d=-1;const good=g.samples.every(v=>{if(!Array.isArray(v)||v.length!==3||!v.every(Number.isFinite)||v[0]<=time||v[0]<0||v[0]>g.time+.001||v[1]<d||v[1]<0||v[1]>distance||v[2]<0||v[2]>2)return false;time=v[0];d=v[1];return true;});if(good&&Math.abs(time-g.time)<.01&&d===distance)c.ghosts[key]={time:g.time,samples:g.samples.map(v=>v.slice())};}
  return c;
 }
 function ensure(s){return s.career??=fresh();}
@@ -28,7 +28,7 @@ function record(s,a){if(a.careerTier===undefined||a.practice)return null;const c
 }
 function opponentBoost(tier,index){return tiers[tier].levels[index]-S.courses[index].level;}
 function selectTier(s,tier){const c=ensure(s);if(!Number.isInteger(tier)||tier<0||tier>2||tier>0&&!c.medals.includes(tier-1))return false;c.tier=tier;return true;}
-function ghostKey(a){return a.index+'-'+a.mode+'-'+(a.careerTier===undefined?0:a.careerTier+1)+(a.condition&&a.condition!=='clear'?'-'+a.condition:'');}
+function ghostKey(a){return a.index+'-'+a.mode+'-'+(a.careerTier===undefined?0:a.careerTier+1)+(a.condition&&a.condition!=='clear'?'-'+a.condition:'')+(a.variant&&a.variant!=='classic'?'-'+a.variant:'');}
 function beginGhost(s,a){a.ghostKey=ghostKey(a);a.ghost=ensure(s).ghosts[a.ghostKey]||null;a.ghostSamples=[[0,0,a.runners[0].lane]];a.nextGhostSample=.5;}
 function sample(a){if(a.practice)return;const p=a.runners[0];if(p.finish!==null){const last=a.ghostSamples.at(-1);if(last[0]<p.finish)a.ghostSamples.push([p.finish,p.distance,p.visualLane??p.lane]);return;}if(a.t>=a.nextGhostSample&&a.ghostSamples.length<600){a.ghostSamples.push([a.t,p.distance,p.visualLane??p.lane]);a.nextGhostSample=a.t+.5;}}
 function saveGhost(s,a){if(a.practice||!a.ghostSamples||a.runners[0].finish===null)return false;sample(a);const c=ensure(s),time=a.runners[0].finish,old=c.ghosts[a.ghostKey];if(!old||time<old.time){c.ghosts[a.ghostKey]={time,samples:a.ghostSamples.map(v=>v.slice())};return true;}return false;}
