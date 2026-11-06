@@ -4,6 +4,15 @@
 
 **Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
+## Freshman year update — new in 1.0.0
+
+- **A six-chapter first season:** Coach and teammates guide your first workout, first race, varsity spot, qualification and national title. Post-race conversations respond to milestones and rival results.
+- **A real bench and lineup:** keep four original teammates and six recruits. Choose four to six teammates alongside your captain. Scout course fit and get lineup recommendations. Training develops the whole squad; only selected partners help during races.
+- **Three new training games:** an accelerating 18-beat interval ladder; six endurance checkpoints; and a 1,000 m obstacle time trial where missed jumps slow you. Each has a success goal, saved best score and retry.
+- **Finish celebrations:** illustrated finish scenes, crowd reactions, personal-best improvements, team victories and underdog wins, plus the existing finish replay.
+- **Gradual onboarding:** advanced team/race options appear after a first finish; alternate drills appear after one workout. “Explore all activities” skips introductions. Existing saves retain progress.
+- **Verification:** fresh-save full-season controller test, skill-versus-idle drill tests, save validation and lineup/partner checks. See [v1.0 checks and limits](docs/V10-PLAYTEST.md).
+
 ## Adventure update — new in 0.9.0
 
 - **A larger race view:** bigger runners, a closer camera, and controls beside the action on desktop and landscape phones. Portrait phones keep controls below the course. A nearby blocker stays visible, while other crowded runners remain represented in the field map and scores.

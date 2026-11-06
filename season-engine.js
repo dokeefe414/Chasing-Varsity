@@ -24,7 +24,7 @@
   const stats = (s={}) => Object.fromEntries(['speed','endurance','strength'].map(k=>[k,number(s?.[k],12,1,100)]));
   function seasonData(raw={}) {
     if(!raw || typeof raw!=='object') raw={};
-    const roster = Array.isArray(raw.roster) ? raw.roster.filter(r=>r && (String(r.id).startsWith('rookie-') || recruits.some(c=>c.id===r.id))).slice(0,6).map(r=>({id:String(r.id),name:String(r.name||'Teammate').slice(0,20),stats:stats(r.stats)})) : rookieTeam();
+    const roster = Array.isArray(raw.roster) ? raw.roster.filter(r=>r && (String(r.id).startsWith('rookie-') || recruits.some(c=>c.id===r.id))).slice(0,10).map(r=>({id:String(r.id),name:String(r.name||'Teammate').slice(0,20),stats:stats(r.stats)})) : rookieTeam();
     const unique = roster.filter((r,i,a)=>a.findIndex(x=>x.id===r.id)===i);
     while(unique.length<4){const r=rookieTeam().find(r=>!unique.some(x=>x.id===r.id));unique.push(r);}
     const bestTraining={};for(const key of ['speed','endurance','strength']) bestTraining[key]=Math.round(number(raw.bestTraining?.[key],0,0,100));
@@ -35,9 +35,9 @@
   E.sanitize=function(raw){const s=originalSanitize(raw);s.season=seasonData(raw?.season);return s;};
   function ensure(s){s.season??=seasonData();return s.season;}
   function average(s){return (s.speed+s.endurance+s.strength)/3;}
-  function recruit(s,id){const data=ensure(s),c=recruits.find(r=>r.id===id);if(!c||data.hired.includes(id)||s.coins<c.cost)return false;
+  function recruit(s,id){const data=ensure(s),c=recruits.find(r=>r.id===id);if(data.roster.length>=10||!c||data.hired.includes(id)||s.coins<c.cost)return false;
     s.coins-=c.cost;const runner={id:c.id,name:c.name,stats:{...c.stats}};
-    if(data.roster.length<6)data.roster.push(runner);else{let weakest=0;data.roster.forEach((r,i)=>{if(average(r.stats)<average(data.roster[weakest].stats))weakest=i;});data.roster[weakest]=runner;}
+    data.roster.push(runner);
     data.hired.push(id);return true;
   }
   function workout(s){const team=ensure(s);if(s.coins<60||team.roster.every(r=>Object.values(r.stats).every(v=>v>=100)))return false;s.coins-=60;team.roster.forEach(r=>Object.keys(r.stats).forEach(k=>r.stats[k]=Math.min(100,r.stats[k]+5)));return true;}
