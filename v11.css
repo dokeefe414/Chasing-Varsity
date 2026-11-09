@@ -124,3 +124,7 @@
  #screen-team .recruit-grid{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){.cv-figure,.v11-photo.photo-tight{animation:none}.v11-meter span{transition:none}}
+
+/* Sound is docked to the play header while playing, never fixed over tactical buttons. */
+#play .sound-toggle.v11-sound-inline{position:static!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none!important;min-height:44px;min-width:90px;box-shadow:none;font-size:12px;padding:7px 10px;flex:0 0 auto}
+@media(max-width:520px){#play .sound-toggle.v11-sound-inline{font-size:11px;min-width:78px;flex:1 1 78px}.play-top>div{min-width:100%}}
