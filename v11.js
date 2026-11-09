@@ -74,6 +74,17 @@ finishTraining=function(a){
  detail.innerHTML=`<h3>What improved</h3><div class="v11-improvements">${summary.gained.length?summary.gained.map(x=>`<span><b>+${x.amount}</b> ${safe(x.key)}</span>`).join(''):'<span>Your trained stats are at their cap. Focus on racecraft.</span>'}</div><p>${safe(summary.tip)}</p>${info?'<small>'+safe(info.label)+': '+info.count+(info.unit==='%'?'%':' / '+info.goal+' '+info.unit)+'</small>':''}`;
  $('result').insertBefore(detail,$('continue'));
 };
+/* Carry the selected jersey design into races, podiums and your avatar. */
+const v11RunnerBefore=runner;
+runner=function(c,x,y,color,phase,scale=1,appearance,motion){
+ v11RunnerBefore(c,x,y,color,phase,scale,appearance,motion);
+ const jersey=P11.ensure(state).jersey;
+ if(jersey==='classic'||appearance||color!==state.color)return;
+ c.save();c.translate(x,y);c.scale(scale,scale);c.fillStyle='#fff4bd';
+ if(jersey==='stripe')c.fillRect(0,-55,5,18);
+ else{c.font='900 15px Outfit, sans-serif';c.fillText('V',-6,-34);}
+ c.restore();
+};
 const v11RaceFinishBefore=finishRace;
 finishRace=function(a){
  if(a.done)return;v11RaceFinishBefore(a);if(!a.done||a.practice||a.scenario)return;
