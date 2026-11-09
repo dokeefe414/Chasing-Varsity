@@ -57,7 +57,7 @@ function raceOpportunity(a){
 function closeFinish(a){
  if(!a?.runners||a.type!=='race')return null;
  const p=a.runners[0];if(!Number.isFinite(p.finish))return null;
- const rivals=a.runners.filter(r=>r!==p&&Number.isFinite(r.finish))
+ const rivals=a.runners.filter(r=>r!==p&&(a.mode!=='team'||r.team!==p.team)&&Number.isFinite(r.finish))
    .sort((x,y)=>Math.abs(x.finish-p.finish)-Math.abs(y.finish-p.finish));
  if(!rivals.length)return null;
  const r=rivals[0],margin=Math.abs(r.finish-p.finish);
