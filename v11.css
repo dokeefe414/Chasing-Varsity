@@ -1,0 +1,130 @@
+/* Chasing Varsity v1.1 visual polish - appended after v1.0 styles. */
+.v11-locker{margin:12px 0 24px;color:#264b60}
+.v11-locker-head{display:flex;align-items:center;justify-content:space-between;gap:22px;margin:0 0 12px}
+.v11-locker-head h2{font-size:clamp(25px,3vw,37px);letter-spacing:-.5px}
+.v11-locker-head p:not(.eyebrow){font-size:13px;line-height:1.45;max-width:640px;margin:8px 0}
+.v11-lineup-total{min-width:115px;background:#ffdc88;border:2px solid #af7737;border-radius:15px;padding:10px 14px;text-align:center;box-shadow:0 5px 0 #b1783855}
+.v11-lineup-total strong{display:block;font:800 27px Outfit,sans-serif}
+.v11-lineup-total span{font-size:11px}
+.v11-locker-room{position:relative;overflow:hidden;border:4px solid #31546c;border-radius:23px 23px 8px 8px;padding:12px 12px 22px;background:linear-gradient(#78b8b2 0%,#c4dfc4 59%,#e1c9a1 59%,#dfae72 100%);box-shadow:0 8px 0 #31546c24}
+.v11-locker-ceiling{text-align:center;background:#254d63;color:#fff5ce;border:3px solid #e8eebd;border-radius:10px;padding:8px;font:800 13px Outfit,sans-serif;letter-spacing:3px}
+.v11-locker-ceiling span{font-weight:500;font-size:10px;margin-left:16px}
+.v11-player-row{display:flex;gap:9px;justify-content:center;align-items:stretch;flex-wrap:wrap;margin:18px 0 5px;position:relative;z-index:1}
+.v11-locker .v11-player{display:flex;align-items:center;flex-direction:column;justify-content:flex-end;text-align:center;padding:8px 6px;background:linear-gradient(90deg,#e6d4a9,#fff0c6 50%,#d4ba83);border:3px solid #7e6545;border-radius:12px;min-width:108px;flex:1 1 108px;max-width:170px;min-height:192px;box-shadow:inset 0 4px #fff2d1,0 4px #704d3370}
+.v11-player.captain{border-color:#f7e070;box-shadow:0 0 0 3px #2b6379,inset 0 3px #fffbd2}
+.v11-player b{font:800 14px Outfit,sans-serif;max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.v11-player small{font-size:10px;margin:4px 0 8px}
+.v11-captain{font-size:9px;font-weight:800;letter-spacing:1px;color:#87511d}
+.v11-player button{padding:8px 9px;min-height:42px;width:100%;border-color:#815d39;background:#fff9e6;font-size:11px;font-weight:800}
+.v11-player button:disabled{opacity:.6}
+.v11-floor{position:absolute;height:24px;bottom:0;left:0;right:0;background:repeating-linear-gradient(95deg,#a77752 0 34px,#e0ac76 35px 70px);border-top:4px solid #946f4d}
+.v11-locker-portrait{height:100px;display:grid;place-items:end center;overflow:hidden;width:100%;position:relative}
+.cv-figure{display:inline-block;width:74px;height:105px;position:relative;transform-origin:50% 100%;animation:v11-idle 2.4s ease-in-out infinite}
+.v11-player:nth-child(2n) .cv-figure{animation-delay:-1.3s}
+.cv-head{position:absolute;left:24px;top:10px;width:27px;height:31px;background:#dca982;border:2px solid #694d38;border-radius:13px 13px 14px 14px;z-index:3}
+.cv-hair{position:absolute;left:22px;top:6px;width:32px;height:20px;background:#403c33;border-radius:15px 15px 8px 8px;z-index:4;clip-path:polygon(0 3%,100% 0,100% 65%,70% 48%,45% 70%,20% 44%,0 75%)}
+.cv-neck{position:absolute;top:39px;left:33px;width:11px;height:12px;background:#c9916d;z-index:2}
+.cv-shirt{position:absolute;top:48px;left:12px;width:50px;height:52px;border:3px solid #fff6d4;border-bottom:7px solid #31546c;background:var(--jersey);border-radius:17px 17px 6px 6px;z-index:2;overflow:hidden}
+.cv-figure.stripe .cv-shirt:after{content:'';position:absolute;left:11px;top:-6px;width:11px;height:64px;transform:rotate(14deg);background:#fff3af}
+.cv-figure.chevron .cv-shirt:after{content:'V';position:absolute;left:8px;top:4px;color:#fff6c4;font:bold 32px Outfit,sans-serif}
+.cv-bib{position:absolute;top:64px;left:25px;width:23px;height:20px;display:grid;place-items:center;z-index:5;border-radius:4px;background:#fff6dc;color:#31546c;font-size:10px;font-weight:800}
+.cv-arm{position:absolute;top:50px;width:14px;height:47px;border:3px solid #694d38;border-radius:12px;background:#dca982}
+.cv-arm.arm-left{left:3px;transform:rotate(12deg)}
+.cv-arm.arm-right{right:3px;transform:rotate(-12deg)}
+.v11-locker-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#f9eed7;border:2px solid #bfad85;border-radius:15px;padding:13px 16px;margin:14px 0}
+.v11-locker-tools b{font-size:14px}.v11-locker-tools p{margin:3px 0 0;font-size:11px}
+.v11-jerseys{display:flex;gap:8px;flex-wrap:wrap}
+.v11-jerseys button{background:#fffaf0;border:2px solid #b8c9ba;border-radius:10px;padding:6px 10px;min-height:44px;display:flex;align-items:center;gap:7px;font-weight:700;font-size:11px;color:#264b60}
+.v11-jerseys button[aria-pressed=true]{background:#fff0b8;border-color:#9b702c;box-shadow:0 3px 0 #be8e4d}
+.v11-swatch{display:inline-block;width:20px;height:22px;background:var(--jersey);border:2px solid #fff8db;border-radius:5px;box-shadow:0 0 0 1px #456;position:relative;overflow:hidden}
+.v11-swatch.stripe:after{content:'';position:absolute;background:#fff6c2;height:30px;width:6px;transform:rotate(15deg);left:6px;top:-5px}
+.v11-swatch.chevron:after{content:'V';position:absolute;left:3px;top:0;color:#fff6c2;font:bold 13px Outfit}
+.v11-bench-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0 10px}
+.v11-bench-head h3{font-size:19px}.v11-bench-head span{font-size:11px}
+.v11-bench-row{display:flex;flex-wrap:wrap;gap:9px;padding:12px;background:#e1ead7;border:2px dashed #90ab9b;border-radius:15px}
+.v11-bench-row .v11-player{flex:0 1 160px;min-height:175px}
+.v11-locker-note{font-size:12px;line-height:1.55;background:#f5f0db;border-radius:10px;padding:11px}
+.v11-performance{background:#264e68;color:#fff7df;border:3px solid #e7d098;border-radius:13px;margin:8px 0;padding:11px 15px;box-shadow:0 4px 0 #1b3e5260}
+.v11-performance-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.v11-performance-heading b{font:800 15px Outfit,sans-serif;letter-spacing:.1px}
+.v11-performance-heading span{white-space:nowrap;font-size:11px}
+.v11-performance p{font-size:12px;line-height:1.4;margin:5px 0}
+.v11-performance small{font-size:10px;color:#e1f4ca}
+.v11-meter{height:8px;background:#173549;border-radius:10px;overflow:hidden;margin-top:8px}
+.v11-meter span{display:block;background:linear-gradient(90deg,#67d7bd,#ffe28d);height:100%;border-radius:10px;transition:width .2s linear}
+.v11-performance.v11-opportunity{border-color:#85e0ab}
+.v11-performance.v11-danger{border-color:#faad89;background:#693f56}
+.v11-performance.v11-final{border-color:#ffe08b;background:#664b70}
+.v11-performance.training{background:#285e55}
+.v11-performance.training.is-hit{border-color:#7ce1a5}
+.v11-performance.training.is-miss{border-color:#ffac86}
+.v11-debrief{background:#e5efce;border:2px solid #7b9e81;border-radius:17px;padding:15px;margin:15px 0}
+.v11-debrief h3{font-size:20px}
+.v11-debrief p{font-size:13px}
+.v11-improvements{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.v11-improvements span{background:#fff9d9;border:1px solid #c5b885;padding:8px 12px;border-radius:9px}
+.v11-photo{background:linear-gradient(135deg,#fff0aa,#f2a77c);border:4px solid #ac663a;border-radius:20px;padding:16px;margin:0 0 20px}
+.v11-photo h3{font:800 30px Outfit,sans-serif;letter-spacing:2px;margin:9px 0}
+.v11-photo-tape{background:repeating-linear-gradient(90deg,#fff8df 0 20px,#335266 20px 40px);color:#fff9cf;text-shadow:1px 2px #203e54;padding:10px;font:800 13px Outfit,sans-serif;letter-spacing:3px}
+.v11-photo-tape span{margin:0 10px}
+.v11-photo.photo-tight{animation:v11-photo .65s ease-out both}
+#play:not([hidden]){scroll-margin-top:6px}
+#play:not([hidden]) .play-top{gap:8px;padding:5px 0}
+#play:not([hidden]) .race-hud{margin-top:8px;padding:10px 14px}
+#play:not([hidden]) #activity-help{margin:7px auto 0;line-height:1.4}
+#play:not([hidden]) .controls{margin:8px auto;gap:7px}
+#play:not([hidden]) #game{max-height:min(43svh,460px);object-fit:contain}
+#screen-team .scout-board{margin-top:10px}
+#screen-team>.lineup-grid,#team-content>.lineup-grid[hidden]{display:none!important}
+#screen-team .recruit-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#screen-team .recruit-card{min-width:0}
+@keyframes v11-idle{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-4px) rotate(1deg)}}
+@keyframes v11-photo{0%{transform:scale(.98);opacity:.6}100%{transform:scale(1);opacity:1}}
+@media(max-width:800px){
+ .v11-locker-head{align-items:flex-start}
+ .v11-locker-tools{align-items:flex-start;flex-direction:column}
+ .v11-player-row{gap:6px}
+ .v11-locker .v11-player{min-width:95px;flex-basis:98px}
+ #screen-team .recruit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #play:not([hidden]) #race-controls{grid-template-columns:repeat(4,minmax(0,1fr))}
+ #play:not([hidden]) #race-controls>button{min-width:0;min-height:46px;padding:8px 4px}
+ #play:not([hidden]) #game{max-height:34svh}
+}
+@media(max-width:520px){
+ main{padding:14px 12px 35px}
+ nav{margin:15px 0;gap:13px}
+ .heading h1{font-size:32px}
+ .v11-locker-head{gap:8px}
+ .v11-locker-head h2{font-size:25px}
+ .v11-locker-head p:not(.eyebrow){font-size:11px}
+ .v11-lineup-total{min-width:80px;padding:6px}
+ .v11-lineup-total strong{font-size:20px}
+ .v11-lineup-total span{font-size:9px}
+ .v11-locker-room{padding:7px 5px 18px}
+ .v11-player-row{gap:4px;margin:10px 0}
+ .v11-locker .v11-player{min-width:84px;flex:1 1 84px;padding:5px 3px;min-height:175px}
+ .v11-player b{font-size:12px}
+ .v11-player small{font-size:9px}
+ .v11-locker-ceiling span{display:none}
+ .v11-locker-tools{padding:10px}
+ .v11-jerseys{gap:4px}
+ .v11-jerseys button{padding:5px 7px;font-size:10px}
+ .v11-bench-row .v11-player{flex:1 1 98px}
+ .v11-performance{padding:9px}
+ .v11-performance-heading b{font-size:13px}
+ .v11-performance p{font-size:11px}
+ #play:not([hidden]) .play-top{padding-top:4px!important}
+ #play:not([hidden]) .play-top button{min-height:44px}
+ #play:not([hidden]) #game{max-height:31svh}
+ #play:not([hidden]) #race-controls{gap:4px}
+ #play:not([hidden]) #race-controls>button{font-size:10px;padding:5px 2px}
+ #play:not([hidden]) #tactical-controls{grid-template-columns:1fr!important}
+ #play:not([hidden]) .lane-controls{gap:4px}
+ #play:not([hidden]) .sound-toggle{position:static!important}
+ #screen-team .recruit-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.cv-figure,.v11-photo.photo-tight{animation:none}.v11-meter span{transition:none}}
+
+/* Sound is docked to the play header while playing, never fixed over tactical buttons. */
+#play .sound-toggle.v11-sound-inline{position:static!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none!important;min-height:44px;min-width:90px;box-shadow:none;font-size:12px;padding:7px 10px;flex:0 0 auto}
+@media(max-width:520px){#play .sound-toggle.v11-sound-inline{font-size:11px;min-width:78px;flex:1 1 78px}.play-top>div{min-width:100%}}
