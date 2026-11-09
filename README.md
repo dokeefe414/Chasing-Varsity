@@ -4,6 +4,18 @@
 
 **Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
+## Gameplay and visual polish — new in 1.1.0 (development branch)
+
+- **Illustrated locker room:** view the captain and selected teammates in animated locker bays, swap bench runners in and out, scout each runner's course-fit rating, and choose between Classic, Track stripe, and Varsity V jerseys. Jersey style is cosmetic and saved; it also appears on the runner artwork during races.
+- **Live tactical cues:** a separate race-readability strip prioritizes nearby rival surges, safe passing gaps, and the final stretch. A progress meter shows distance covered. The existing authoritative lane-clearance and tactical controllers still determine whether a move is legal.
+- **Photo-finish drama:** races decided within 1.5 arcade seconds against an opponent receive an extra finish-line recap; gaps within 0.65 seconds receive a photo-finish treatment. Replays and official scoring are unchanged.
+- **Training response:** see session targets, time remaining, live accuracy or checkpoint progress, and hit/miss feedback during standard workouts and alternate drills. Results summarize actual stat gains and a next-workout coaching tip.
+- **Adaptive standard training:** after three consecutive misses, standard timing windows and obstacle spacing become slightly more forgiving, within strict caps. Challenge training and the fixed-stat race moments remain unchanged. Successful hits reset the assistance.
+- **Display refinements:** compact race HUD and control layout, phone-width locker room and button wrapping, touch targets, and reduced-motion support. Visual sizing requires real-device review in addition to automated tests.
+- **Safety and verification:** v1.1 reads older saves, validates saved jersey choices, preserves the current team-lineup rules and race physics, and adds controller/pure-function regression tests. See [v1.1 verification and manual QA](docs/V11-PLAYTEST.md).
+
+**Deployment note:** This branch is a proposed update. The play link above points to a separately hosted site and does **not** update when GitHub commits land. Publish or redeploy the tested release to make v1.1 live on that URL.
+
 ## Freshman year update — new in 1.0.0
 
 - **A six-chapter first season:** Coach and teammates guide your first workout, first race, varsity spot, qualification and national title. Post-race conversations respond to milestones and rival results.
@@ -133,7 +145,7 @@ Open `http://localhost:3000`. No npm dependencies are required. Google Fonts is 
 npm test
 ```
 
-The 112 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Additional race-day tests cover weather effects, attack warnings, chemistry eligibility and caps, weather-isolated save records, replay immutability, hard-circuit balance, and frame timing. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
+The automated test suite covers original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Additional race-day tests cover weather effects, attack warnings, chemistry eligibility and caps, weather-isolated save records, replay immutability, hard-circuit balance, and frame timing. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
 
 ### Source guide
 
@@ -153,6 +165,8 @@ The 112 tests cover original rules, legacy/new saves, recruiting, stat caps, tea
 | `career.js` / `career.css` | Season calendar, guided tactical practice, ghost rendering, and import/export UI |
 | `raceday-engine.js` | Forecasts, course variants, rival attack timing, partnerships, specialties, and recorded replay data |
 | `raceday.js` / `raceday.css` | Forecast selection, team chemistry, expressive poses, podiums, replay controls, and phone polish |
+| `varsity-engine.js` / `varsity.js` / `varsity.css` | First-year chapters, selectable lineup, alternate drills and celebrations |
+| `v11-engine.js` / `v11.js` / `v11.css` | Locker room, cosmetic jerseys, tactical and training feedback, responsive polish |
 | `style.css` | Base responsive styles |
 | `dev.js` | Dependency-free local development server |
 | `tests/` | Rule and complete controller-flow regression tests |
