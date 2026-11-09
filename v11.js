@@ -14,7 +14,7 @@ function renderLockerRoom(){
   const rating=V.fit(r.stats,scout),label=r.captain?'Captain':D.roles[D.specialty(r.stats)],title=`${r.name} · ${label} · course fit ${rating}`;
   return `<article class="v11-player ${r.captain?'captain':''} ${starting?'starting':'benched'}"><div class="v11-locker-portrait">${v11Portrait(style,color,r.captain?'C':i+1)}</div><b>${safe(r.name)}</b><small>${label} · FIT ${rating}</small>${r.captain?'<span class="v11-captain">YOUR RUNNER</span>':`<button type="button" class="outline" data-lineup="${safe(r.id)}" aria-label="${starting?'Bench':'Start'} ${safe(r.name)}" ${starting&&active.length===5||!starting&&active.length===7?'disabled':''}>${starting?'Move to bench':'Add to lineup'}</button>`}</article>`;
  };
- scene.innerHTML=`<div class="v11-locker-head"><div><p class="eyebrow">CAMP VARSITY · LOCKER ROOM</p><h2>Your starting seven</h2><p>The captain is always selected. Choose 4–6 teammates for your next team meet; the first five finishers score.</p></div><div class="v11-lineup-total"><strong>${active.length} / 7</strong><span>on the start line</span></div></div>
+ scene.innerHTML=`<div class="v11-locker-head"><div><p class="eyebrow">CAMP VARSITY · LOCKER ROOM</p><h2>Starting lineup</h2><p>The captain is always selected. Choose 4–6 teammates for your next team meet; the first five finishers score.</p></div><div class="v11-lineup-total"><strong>${active.length} / 7</strong><span>on the start line</span></div></div>
  <div class="v11-locker-room"><div class="v11-locker-ceiling">CAMP VARSITY <span>EVERY PLACE MATTERS</span></div><div class="v11-player-row">${active.map((r,i)=>player(r,i,true)).join('')}</div><div class="v11-floor"></div></div>
  <div class="v11-locker-tools"><div><b>Choose a jersey</b><p>Uniform pattern is cosmetic and saved with your team.</p></div><div class="v11-jerseys" role="group" aria-label="Jersey style">${P11.STYLES.map(s=>`<button type="button" data-jersey="${s}" aria-pressed="${s===style}" class="${s===style?'selected':''}"><span class="v11-swatch ${s}" style="--jersey:${color}"></span>${s==='classic'?'Classic':s==='stripe'?'Track stripe':'Varsity V'}</button>`).join('')}</div></div>
  <div class="v11-bench-head"><h3>Bench & substitutions</h3><span>${bench.length} runners available</span></div><div class="v11-bench-row">${bench.length?bench.map((r,i)=>player(r,i,false)).join(''):'<p>Everyone is in the starting group. Bench a teammate to make a substitution.</p>'}</div>
@@ -23,8 +23,17 @@ function renderLockerRoom(){
 }
 const v11RenderBefore=render;
 render=function(){v11RenderBefore();renderLockerRoom();};
+function v11DockSound(inPlay){
+ const sound=document.querySelector('.sound-toggle');
+ if(!sound)return;
+ sound.classList.toggle('v11-sound-inline',inPlay);
+ if(inPlay){const top=$('play').querySelector('.play-top');if(top)top.append(sound);}
+ else document.body.append(sound);
+}
 const v11ShowBefore=showTab;
-showTab=function(name){v11ShowBefore(name);window.scrollTo?.({top:0,behavior:'instant'});};
+showTab=function(name){v11DockSound(false);v11ShowBefore(name);window.scrollTo?.({top:0,behavior:'auto'});};
+const v11OpenBefore=openActivity;
+openActivity=function(...args){v11OpenBefore(...args);v11DockSound(true);};
 const v11ProfileBefore=CVAdventure.profile;
 CVAdventure.profile=function(a){return P11.assist(a,v11ProfileBefore(a));};
 const v11TrainingStart=startTraining;
