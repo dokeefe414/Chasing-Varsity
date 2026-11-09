@@ -42,14 +42,14 @@ function raceOpportunity(a){
  const ahead=others.filter(r=>r.distance>p.distance&&r.distance-p.distance<=65)
    .sort((x,y)=>x.distance-y.distance)[0];
  const open=[0,1,2].filter(l=>l!==p.lane&&R.clearLane(a,p,l)&&a.t>=p.laneReady&&p.energy>=1.2*Math.abs(l-p.lane));
- if(ahead&&ahead.lane===p.lane){
-   return open.length?{tone:'opportunity',title:'Passing gap: lane '+(open[0]+1),detail:ahead.name+' is '+Math.round(ahead.distance-p.distance)+'m ahead. Change lanes, then surge past.'}:
-   {tone:'danger',title:'Boxed behind '+ahead.name,detail:'Only '+Math.round(ahead.distance-p.distance)+'m ahead. Hold pace until a lane opens.'};
- }
  if(progress>=.90){
    const nearest=others.sort((x,y)=>Math.abs(x.distance-p.distance)-Math.abs(y.distance-p.distance))[0];
    const gap=nearest?Math.abs(nearest.distance-p.distance):null;
    return {tone:'final',title:gap!==null&&gap<30?'Photo finish territory!':'The final stretch',detail:gap!==null&&gap<30?'A rival is '+Math.round(gap)+'m away. Make your final move now.':'Commit to your finishing kick if you have energy.'};
+ }
+ if(ahead&&ahead.lane===p.lane){
+   return open.length?{tone:'opportunity',title:'Passing gap: lane '+(open[0]+1),detail:ahead.name+' is '+Math.round(ahead.distance-p.distance)+'m ahead. Change lanes, then surge past.'}:
+   {tone:'danger',title:'Boxed behind '+ahead.name,detail:'Only '+Math.round(ahead.distance-p.distance)+'m ahead. Hold pace until a lane opens.'};
  }
  if(ahead&&open.length)return {tone:'opportunity',title:'Room to overtake',detail:ahead.name+' is '+Math.round(ahead.distance-p.distance)+'m ahead. Lane '+(open[0]+1)+' is clear.'};
  return {tone:'calm',title:'Run your race',detail:p.drafting?'You are drafting. Save energy before your next move.':'Watch the runner ahead and build energy for a clean pass.'};
