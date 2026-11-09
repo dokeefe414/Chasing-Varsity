@@ -70,6 +70,8 @@ function debrief(before,after,quality){
  const cue=quality>=.8?'Great consistency. Try Challenge training or race with your new fitness.':quality>=.55?'Solid work. Repeat this drill for a better combo and more improvement.':'Focus on accuracy over speed. Slower, clean actions build more quality.';
  return {gained,tip:cue};
 }
+const beforeSanitize=E.sanitize;
+E.sanitize=function(raw){const s=beforeSanitize(raw);s.v11=sanitize(raw?.v11);return s;};
 const api={STYLES,ensure,sanitize,switchJersey,lineup,assist,workoutProgress,raceOpportunity,closeFinish,debrief};
 if(typeof module!=='undefined')module.exports=api;else root.CVEleven=api;
 })(typeof window!=='undefined'?window:globalThis);
