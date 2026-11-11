@@ -4,6 +4,14 @@
 
 **Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
+## Locker room & feedback update — new in 1.1.0
+
+- **Illustrated locker room:** runner portraits, jersey choices, separate lineup/bench/recruit views, and course-fit recommendations.
+- **Clearer race moments:** legal passing windows, nearby rival attacks, and a final-150 m duel with the actual gap.
+- **Training feedback:** immediate hit/miss cues, live goal meters, and a result explaining the stat improvement and next practice goal.
+- **Less clutter:** expandable result analysis and coaching notes, larger touch controls, and compact landscape training.
+- **Verification:** 126 passing tests, campaign/scenario/training checks, and desktop plus phone-sized browser checks. See [v1.1 checks and limits](docs/V11-PLAYTEST.md).
+
 ## Freshman year update — new in 1.0.0
 
 - **A six-chapter first season:** Coach and teammates guide your first workout, first race, varsity spot, qualification and national title. Post-race conversations respond to milestones and rival results.
