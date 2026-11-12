@@ -4,6 +4,15 @@
 
 **Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
+## Rivalry & championship update — new in 1.2.0
+
+- **Rivalries with history:** last-duel margins, win/loss streaks, rematch victories and reversals, alongside your existing head-to-head totals.
+- **Start-line briefings:** weather, course advice, the featured rival and team strategy before a quick or calendar race.
+- **Three distinct squad plans:** patient openings build after halfway; packs regroup and release late; aggressive openings spend reserves early. Live squad orders explain each teammate’s action. Captain controls remain yours.
+- **Championship buildup:** six-stop season progress, qualification context, rival portraits and a season-finale squad celebration with real improvement since your season baseline.
+- **More expressive running:** varied cadence, stronger surge motion and speed lines, with reduced-motion support and existing fatigue expressions.
+- **Validation:** 133 tests, an 18-meet campaign and a reproducible six-course strategy comparison. [Results and limits](docs/V12-PLAYTEST.md) · [Human playtest guide](docs/PLAYER-PLAYTEST.md).
+
 ## Locker room & feedback update — new in 1.1.0
 
 - **Illustrated locker room:** runner portraits, jersey choices, separate lineup/bench/recruit views, and course-fit recommendations.
