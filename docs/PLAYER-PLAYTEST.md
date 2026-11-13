@@ -11,6 +11,14 @@ Ask 3–5 people who have not played before to use their own phone or computer. 
 5. On a phone, rotate during a paused race, resume, change lanes and finish. Note any accidental taps, clipped text or buttons that cannot be reached.
 6. Ask: Would you play another race? What was the best moment? Where did you want to quit? Rate clarity, control and desire for another race from 1–5.
 
+For the camp-life update, also ask players to:
+
+- Find the requirement for their next mastery medal, unlock a harder workout, and retry it. Can they explain why a perfect Standard run does not earn gold?
+- Find a camp upgrade and tell you how they earned it. Equip a badge without coaching.
+- Talk to a starter and a benched teammate. Can they explain the personal goal and which races count?
+- Select an optional objective, race, then explain the outcome and whether repeating it pays the bonus again.
+- Open the journal and training tabs on a phone. Note crowded controls, accidental taps and excessive scrolling.
+
 Record device/browser, task, hesitation or failure, exact quote and severity. Avoid collecting personal information. Save observations locally; there is no analytics upload in the game.
 
 Prioritize blockers and accidental actions first, then confusing decisions. Change one balance rule at a time and repeat the same task. Do not infer enjoyment from a scripted win or a passing test.

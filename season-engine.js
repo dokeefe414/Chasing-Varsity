@@ -24,7 +24,7 @@
   const stats = (s={}) => Object.fromEntries(['speed','endurance','strength'].map(k=>[k,number(s?.[k],12,1,100)]));
   function seasonData(raw={}) {
     if(!raw || typeof raw!=='object') raw={};
-    const roster = Array.isArray(raw.roster) ? raw.roster.filter(r=>r && (String(r.id).startsWith('rookie-') || recruits.some(c=>c.id===r.id))).slice(0,10).map(r=>({id:String(r.id),name:String(r.name||'Teammate').slice(0,20),stats:stats(r.stats)})) : rookieTeam();
+    const roster = Array.isArray(raw.roster) ? raw.roster.filter(r=>r && (/^rookie-[0-3]$/.test(String(r.id)) || recruits.some(c=>c.id===r.id))).slice(0,10).map(r=>({id:String(r.id),name:String(r.name||'Teammate').slice(0,20),stats:stats(r.stats)})) : rookieTeam();
     const unique = roster.filter((r,i,a)=>a.findIndex(x=>x.id===r.id)===i);
     while(unique.length<4){const r=rookieTeam().find(r=>!unique.some(x=>x.id===r.id));unique.push(r);}
     const bestTraining={};for(const key of ['speed','endurance','strength']) bestTraining[key]=Math.round(number(raw.bestTraining?.[key],0,0,100));

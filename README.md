@@ -4,6 +4,16 @@
 
 **Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
+## Camp life & mastery update — new in 1.3.0
+
+- **Six mastery tracks:** bronze at 60% session quality, silver at 80%, gold at 90% in the harder version. Silver opens that game's Challenge or Expert button. Three medals of a tier unlock a cosmetic singlet badge. Bests never decrease.
+- **Three expert drills:** a 24-beat ladder with tighter timing, narrower endurance checkpoint zones, and a faster trail trial with denser logs and stricter jumps. Retry keeps your chosen difficulty.
+- **A camp that grows:** earn three bronze medals to paint the practice track; finish five races and recruit someone to rebuild the clubhouse; win a team race or earn gold to add the honors display. Open the Camp journal to see progress and equip badges.
+- **Ten teammate personalities:** individual conversations, personal training/racing goals, and a one-time 20-coin reward. Bench runners train, but only selected teammates receive race credit.
+- **Optional race objectives:** gain three places in the final quarter, finish top three with 30% energy, or win with all four original teammates. Choose in the start-line briefing. Each objective pays 25 bonus coins once per course; practice and scenarios do not count.
+- **Cleaner training navigation:** core skills and trail challenges have separate tabs. Trail drills open after one core session, or through Explore all activities. Existing saves retain their progress; legacy bests can award bronze/silver but never invent a hard-mode gold.
+- **Validation:** 146 automated tests, a reproducible opening progression check, and desktop/390-pixel layout checks. [Results and limits](docs/V13-PLAYTEST.md) · [Human playtest guide](docs/PLAYER-PLAYTEST.md).
+
 ## Rivalry & championship update — new in 1.2.0
 
 - **Rivalries with history:** last-duel margins, win/loss streaks, rematch victories and reversals, alongside your existing head-to-head totals.
