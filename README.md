@@ -4,6 +4,17 @@
 
 **Click to play — no download or installation.** Created by **Daniel O’Keefe**. Train your rookie, build a cross-country team, and race from Pine Hollow to Varsity Nationals. Original cartoon artwork, keyboard and touch controls, and automatic browser saves.
 
+## Trail choices & training flow — new in 1.4.0
+
+- **Twelve named course forks:** choose muddy creek cuts, steep ridge cuts or dry loops. Shortcuts trade distance for terrain and energy costs; AI runners decide independently. Scout estimates before racing and review your choices afterward.
+- **Five recognizable rival habits:** early attacks, measured responses, hill attacks, second-half builds and finishing kicks. Attacks warn before spending energy and can cancel when conditions change.
+- **More expressive training:** breathing cues, hit/miss particles, combos, illustrated results and separate Standard/hard personal bests for all six games. Immediate Retry preserves difficulty; R retries a completed workout when no form control is focused.
+- **Simpler camp navigation:** Camp, Train, Race and More, with signs for Clubhouse, Season board and Trophy shelf. Supporting advice and rewards expand when needed.
+- **Compatible saves:** existing progress stays; new route-rule ghosts/splits are separated from older records.
+- **Validation:** 160 passing tests, two complete 18-meet campaign checks, opening/training checks and desktop/narrow-layout browser inspection. Independent human and physical-phone playtesting remains pending.
+
+[Mechanics and implementation](docs/V14-DESIGN.md) · [Verification and limits](docs/V14-PLAYTEST.md) · [Player playtest guide](docs/PLAYER-PLAYTEST.md)
+
 ## Camp life & mastery update — new in 1.3.0
 
 - **Six mastery tracks:** bronze at 60% session quality, silver at 80%, gold at 90% in the harder version. Silver opens that game's Challenge or Expert button. Three medals of a tier unlock a cosmetic singlet badge. Bests never decrease.
@@ -144,7 +155,7 @@ Each team's first five finishers score their overall places. Lowest total wins. 
 
 ## Saves
 
-Your runner, coins, outfits, unlocked courses, personal bests, recruits, teammate development, team records, chapter stars, rival records, achievements, recent race history, team plans, last training discipline, and previous split comparisons save automatically in this browser. Existing saves migrate without losing the original runner's progress. Saves do not automatically sync across devices; export a backup and import it to transfer progress. Clearing site data removes the local save. Career results, ribbons, practice completion, and recorded ghosts are included. If storage is unavailable, play continues for the session with a warning. **Runner → Save data** contains a confirmed season reset.
+Your runner, coins, outfits, unlocked courses, personal bests, recruits, teammate development, team records, chapter stars, rival records, achievements, recent race history, team plans, last training discipline, and previous split comparisons save automatically in this browser. Existing saves migrate without losing the original runner's progress. Saves do not automatically sync across devices; export a backup and import it to transfer progress. Clearing site data removes the local save. Career results, ribbons, practice completion, and recorded ghosts are included. If storage is unavailable, play continues for the session with a warning. **More → Your locker → Save data** contains a confirmed season reset.
 
 ## Optional local development
 
@@ -160,7 +171,7 @@ Open `http://localhost:3000`. No npm dependencies are required. Google Fonts is 
 npm test
 ```
 
-The 112 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Additional race-day tests cover weather effects, attack warnings, chemistry eligibility and caps, weather-isolated save records, replay immutability, hard-circuit balance, and frame timing. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
+The 160 tests cover original rules, legacy/new saves, recruiting, stat caps, team displacement and tie-breaking, race simulations on all six courses, fatigue, full controller flows, pause/countdown, kick eligibility, rewards occurring once, rival strategies, chapter challenges, cosmetic unlocks, tutorial progression, championship recaps, physical passing, drafting, surge reactions, fork tradeoffs, team plans, telemetry, split persistence, and fixed-step simulation. Additional race-day tests cover weather effects, attack warnings, chemistry eligibility and caps, weather-isolated save records, replay immutability, hard-circuit balance, and frame timing. Controller tests use a minimal DOM to test game state; they complement rather than replace visual browser checks.
 
 ### Source guide
 
@@ -180,6 +191,8 @@ The 112 tests cover original rules, legacy/new saves, recruiting, stat caps, tea
 | `career.js` / `career.css` | Season calendar, guided tactical practice, ghost rendering, and import/export UI |
 | `raceday-engine.js` | Forecasts, course variants, rival attack timing, partnerships, specialties, and recorded replay data |
 | `raceday.js` / `raceday.css` | Forecast selection, team chemistry, expressive poses, podiums, replay controls, and phone polish |
+| `trail-engine.js` | Route physics, rival habits and mode-specific training records |
+| `trail.js` / `trail.css` | Fork scouting, camp destinations, training feedback and compact results |
 | `style.css` | Base responsive styles |
 | `dev.js` | Dependency-free local development server |
 | `tests/` | Rule and complete controller-flow regression tests |

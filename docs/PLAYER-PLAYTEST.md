@@ -26,3 +26,13 @@ Prioritize blockers and accidental actions first, then confusing decisions. Chan
 | Device/browser | Task | What happened | Player quote | Severity | Follow-up |
 | --- | --- | --- | --- | --- | --- |
 | Pending | | | | | |
+
+## v1.4 focused tasks
+
+1. Find the roster, season and trophies from camp without coaching. Record hesitation and wrong destinations.
+2. Explain a fork's tradeoff before choosing, then read its recap. Compare a weaker and stronger runner: did the outcome match expectations?
+3. Watch an attack warning. Identify the rival and a possible response. Later ask whether the opponent feels recognizable.
+4. Finish a workout, retry the same difficulty, and find rewards. Distinguish session quality, mode-specific PB and retained mastery.
+5. On a physical phone, choose a branch while running, pause/resume, use More and retry a workout. Record missed taps, clipped text and excessive scrolling.
+
+Targets for the next human round: no blocked controls or lost progress; at least four of five participants explain route costs and find Retry unaided. Collect clarity/control/replay ratings and frustration quotes before retuning. These are planned targets, not measured results.
